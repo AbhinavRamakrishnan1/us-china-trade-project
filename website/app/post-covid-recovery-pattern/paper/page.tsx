@@ -30,13 +30,20 @@ const evidenceSections = [
 
 const sourceLinks = [
   { label: "U.S. Census Bureau, Trade in Goods with China", href: "https://www.census.gov/foreign-trade/balance/c5700.html", type: "PRIMARY DATA" },
+  { label: "U.S. Census Bureau, Country and Product Trade Data", href: "https://www.census.gov/foreign-trade/statistics/country/index.html", type: "PRIMARY DATA / PARTNER FLOWS" },
+  { label: "U.S. Census Bureau, monthly international trade time-series data", href: "https://www.census.gov/data/developers/data-sets/international-trade.html", type: "PRIMARY DATA / PRODUCT SERIES" },
   { label: "FRED IMPCH, China goods imports on customs basis", href: "https://fred.stlouisfed.org/series/IMPCH", type: "PRIMARY DATA / SERIES" },
   { label: "FRED EXPCH, China goods exports on F.A.S. basis", href: "https://fred.stlouisfed.org/series/EXPCH", type: "PRIMARY DATA / SERIES" },
   { label: "USTR, Section 301 China investigation and actions", href: "https://ustr.gov/issue-areas/enforcement/section-301-investigations/section-301-china", type: "POLICY RECORD" },
+  { label: "USTR, final 2024 Section 301 tariff modifications", href: "https://ustr.gov/about-us/policy-offices/press-office/press-releases/2024/september/ustr-finalizes-action-china-tariffs-following-statutory-four-year-review", type: "POLICY RECORD" },
   { label: "Haberkorn et al. (2024), Federal Reserve FEDS Notes, Global Trade Patterns after Tariff Hikes", href: "https://www.federalreserve.gov/econres/notes/feds-notes/global-trade-patterns-in-the-wake-of-the-2018-2019-u-s-china-tariff-hikes-20240412.html", type: "FEDERAL RESERVE RESEARCH" },
   { label: "Federal Reserve, July 2021 Monetary Policy Report", href: "https://www.federalreserve.gov/monetarypolicy/2021-07-mpr-part1.htm", type: "GOVERNMENT CONTEXT" },
   { label: "Federal Reserve, Bottlenecks, Shortages, and Soaring Prices (2022)", href: "https://www.federalreserve.gov/econres/notes/feds-notes/bottlenecks-shortages-and-soaring-prices-in-the-us-economy-20220624.html", type: "GOVERNMENT CONTEXT" },
   { label: "BEA, International Services Expanded", href: "https://www.bea.gov/data/intl-trade-investment/international-services-expanded", type: "PRIMARY DATA" },
+  { label: "Census Bureau, Manufacturing and Trade Inventories and Sales", href: "https://www.census.gov/mtis/index.html", type: "PRIMARY DATA / INVENTORY" },
+  { label: "New York Fed, Global Supply Chain Pressure Index", href: "https://www.newyorkfed.org/research/policy/gscpi", type: "AGGREGATE LOGISTICS INDICATOR" },
+  { label: "Fajgelbaum et al. (2024), The U.S.-China Trade War and Global Reallocations, AER: Insights 6(2), 295-312", href: "https://www.aeaweb.org/articles?id=10.1257/aeri.20230094", type: "PEER-REVIEWED RESEARCH" },
+  { label: "Alfaro and Chor (2023), Global Supply Chains: The Looming Great Reallocation, NBER Working Paper 31661", href: "https://www.nber.org/papers/w31661", type: "ACADEMIC WORKING PAPER" },
 ];
 
 export default function PostCovidRecoveryPatternPaperPage() {
@@ -55,7 +62,7 @@ export default function PostCovidRecoveryPatternPaperPage() {
           <p className="text-[10px] uppercase tracking-[0.34em] text-[var(--accent-soft)]">Research status</p>
           <h2 className="mt-4 font-[family:var(--font-display)] text-3xl text-white">Paper in Development</h2>
           <p className="mt-4 leading-8 text-white/66">
-            Proposed thesis, not a finding: post-2022 U.S.-China trade may have normalized in some aggregate measures while remaining different in sourcing geography and supply-chain practices. The paper should test that proposition rather than assume it.
+            Working hypothesis to test, not a finding: compare 2022-2025 U.S. direct goods imports from China with a fixed 2017-2019 baseline, measuring nominal value and China&apos;s share of total U.S. goods imports separately. A recovery in nominal value need not mean the pre-2018 sourcing share returned. Test the two outcomes separately; any real-volume or firm-strategy conclusion requires additional price/quantity or firm-level data.
           </p>
         </article>
 
@@ -74,7 +81,7 @@ export default function PostCovidRecoveryPatternPaperPage() {
 
         <section className="mt-8 rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 sm:p-10">
           <p className="text-[10px] uppercase tracking-[0.34em] text-[var(--accent-soft)]">Data and literature starting points</p>
-          <p className="mt-4 leading-7 text-white/65">Required dataset metadata: source/table or series, measure, country/product scope, frequency, units, price basis, seasonal adjustment, coverage, retrieval date/vintage, transformation, and known limitations. Current project CSVs are static and have no recorded retrieval vintage.</p>
+          <p className="mt-4 leading-7 text-white/65">Required dataset metadata: source/table or series, measure, country/product scope, frequency, units, price basis, seasonal adjustment, coverage, retrieval date/vintage, transformation, and known limitations. Current project CSVs are static and have no recorded retrieval vintage. Census annual partner totals and monthly product-level data should be separately versioned; Census inventory measures describe stock levels but not firms&apos; motives for holding them. The New York Fed GSCPI is a global indicator, not a China-specific reliability measure.</p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {sourceLinks.map((source) => (
               <a key={source.label} href={source.href} target="_blank" rel="noreferrer" className="rounded-xl border border-white/10 p-4 text-white/80 transition hover:border-[var(--accent)]">
@@ -89,7 +96,7 @@ export default function PostCovidRecoveryPatternPaperPage() {
             <li>Do not claim the pre-2020 supply chain returned, or that firms broadly adopted durable “just-in-case” strategies, without defined measures and firm-level evidence.</li>
             <li>Do not attribute the observed post-2022 trade path to tariffs or resilience programs from descriptive trends alone.</li>
             <li>Do not equate nominal trade-value recovery with real volume recovery or improved delivery reliability.</li>
-            <li>Do not claim a 2025 full-year result from a dataset that ends in January 2026 unless the annual aggregation and data vintage are documented.</li>
+            <li>Do not claim a 2025 full-year result from a dataset whose extraction vintage is unknown; verify all 12 months and document the annual aggregation.</li>
           </ul>
         </section>
 
