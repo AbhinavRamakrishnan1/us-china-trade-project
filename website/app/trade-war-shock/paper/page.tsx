@@ -89,6 +89,17 @@ const evidenceNeeds = [
   "A trade policy uncertainty index dataset (Caldara et al. or equivalent), for the uncertainty-investment chart.",
 ];
 
+const verifiedReferences = [
+  { label: "USTR (2018-2019), Section 301 tariff actions and product schedules", note: "Primary policy record for product coverage, effective dates, rates, postponements, and exclusions; the draft no longer asserts one aggregate average tariff rate.", href: "https://ustr.gov/issue-areas/enforcement/section-301-investigations/tariff-actions" },
+  { label: "Amiti, Redding & Weinstein (2019), Journal of Economic Perspectives 33(4), 187-210", note: "Finds pass-through into domestic prices of imported goods and estimates real-income effects; not a claim that every consumer retail price rose by the tariff amount.", href: "https://www.aeaweb.org/articles?id=10.1257/jep.33.4.187" },
+  { label: "Fajgelbaum et al. (2020), Quarterly Journal of Economics 135(1), 1-55", note: "Study-specific estimates of tariff-exposed imports, exports, prices, and modeled welfare; not population-wide bilateral trade percentage changes.", href: "https://academic.oup.com/qje/article/135/1/1/5626442" },
+  { label: "USTR (2018), statement on Section 301 and retaliation", note: "Contemporaneous record of U.S. and Chinese tariff actions; USDA's 2018 MFP fact sheet separately lists eligible agricultural commodities but does not establish political targeting intent.", href: "https://ustr.gov/about-us/policy-offices/press-office/press-releases/2018/july/statement-us-trade-representative" },
+  { label: "USDA Farm Service Agency (2018), Market Facilitation Program fact sheet", note: "Documents assistance to eligible agricultural producers affected by foreign retaliatory tariffs; it is not a causal estimate of producer losses.", href: "https://www.fsa.usda.gov/sites/default/files/documents/Market_Facilitation_Program_Fact_Sheet_September_2018B.pdf" },
+  { label: "Hoang & Lewis (2024), Federal Reserve FEDS Notes", note: "Finds limited evidence of rerouting through third countries through 2022; discusses indirect reliance and data limits, not shipment-level proof of illegal transshipment.", href: "https://www.federalreserve.gov/econres/notes/feds-notes/as-the-u-s-is-derisking-from-china-Other-foreign-u-s-suppliers-are-relying-more-on-chinese-imports-20240802.html" },
+  { label: "Caldara et al. (2019), Federal Reserve IFDP 1256", note: "Preliminary working paper measuring trade-policy uncertainty and investment responses; it does not verify specific 2018-2019 shipment-frontloading claims.", href: "https://www.federalreserve.gov/econres/ifdp/files/ifdp1256.pdf" },
+  { label: "WTO, disputes DS543, DS565, and DS558", note: "DS543 and DS565 concern China's challenges to U.S. tariff measures; DS558 concerns a distinct U.S. challenge to Chinese duties following Section 232 actions.", href: "https://www.wto.org/english/tratop_e/dispu_e/cases_e/ds543_e.htm" },
+];
+
 export default function TradeWarShockPaperPage() {
   return (
     <main className="min-h-screen bg-[#070a0d] text-white">
@@ -102,8 +113,20 @@ export default function TradeWarShockPaperPage() {
         </h1>
 
         <aside className="mt-6 rounded-xl border border-amber-200/20 bg-amber-100/[0.04] px-5 py-4 text-sm leading-6 text-white/70" role="note">
-          Working research draft. Bracketed notes mark evidence or citations still to be added; statements attached to those notes should not be treated as fully verified. Verified references include USTR&apos;s <a className="underline" href="https://ustr.gov/issue-areas/enforcement/section-301-investigations/section-301-china/200-billion-trade-action" target="_blank" rel="noreferrer">Section 301 action chronology</a>, <a className="underline" href="https://www.aeaweb.org/articles?id=10.1257/jep.33.4.187" target="_blank" rel="noreferrer">Amiti, Redding &amp; Weinstein (2019)</a>, <a className="underline" href="https://www.nber.org/papers/w25638" target="_blank" rel="noreferrer">Fajgelbaum et al. (2020)</a>, and <a className="underline" href="https://www.federalreserve.gov/econres/notes/feds-notes/global-trade-patterns-in-the-wake-of-the-2018-2019-u-s-china-tariff-hikes-20240412.html" target="_blank" rel="noreferrer">Federal Reserve research on trade diversion</a>.
+          Working research draft. Bracketed notes mark evidence or citations still to be added; claims tied to unresolved notes should not be treated as fully verified. The linked source shelf below summarizes what the verified sources do and do not establish.
         </aside>
+
+        <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-6" aria-labelledby="verified-sources-title">
+          <h2 id="verified-sources-title" className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--accent-soft)]">Verified sources and scope</h2>
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            {verifiedReferences.map((source) => (
+              <article key={source.href} className="rounded-xl border border-white/10 p-4">
+                <a className="text-sm font-semibold text-white underline decoration-white/30 underline-offset-4" href={source.href} target="_blank" rel="noreferrer">{source.label}</a>
+                <p className="mt-2 text-sm leading-6 text-white/60">{source.note}</p>
+              </article>
+            ))}
+          </div>
+        </section>
 
         <div className="mt-10 rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 sm:p-10">
           {paperSections.map((section) => (

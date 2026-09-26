@@ -133,7 +133,7 @@ export default function CovidSupplyChainPaperPage() {
         </h1>
 
         <aside className="mt-6 rounded-xl border border-amber-200/20 bg-amber-100/[0.04] px-5 py-4 text-sm leading-6 text-white/70" role="note">
-          Working research draft. Bracketed notes mark evidence or citations still to be added; statements attached to those notes should not be treated as fully verified. Federal Reserve context: <a className="underline" href="https://www.federalreserve.gov/monetarypolicy/2021-07-mpr-part1.htm" target="_blank" rel="noreferrer">July 2021 Monetary Policy Report</a> and <a className="underline" href="https://www.federalreserve.gov/econres/notes/feds-notes/bottlenecks-shortages-and-soaring-prices-in-the-us-economy-20220624.html" target="_blank" rel="noreferrer">2022 bottlenecks analysis</a>. These support aggregate demand/logistics context, not all China-specific claims below.
+          Working research draft. Bracketed notes mark evidence or citations still to be added; claims tied to unresolved notes should not be treated as fully verified. The evidence shelf below describes the scope and limitations of each source.
         </aside>
 
         <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-6" aria-labelledby="verified-sources-title">

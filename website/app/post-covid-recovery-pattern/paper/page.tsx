@@ -14,12 +14,12 @@ const evidenceSections = [
   {
     title: "3. Sourcing geography and indirect exposure",
     question: "Did direct sourcing shift toward other partners, and what can available data say about Chinese value added?",
-    evidence: "Compare Census partner and product-level flows; pair with the Federal Reserve's documented post-tariff trade-diversion analysis. Treat partner trade growth as diversion evidence, not automatic proof of transshipment or Chinese content.",
+    evidence: "Compare Census partner and product-level flows; measure direct imports, partner-level imports from China, Chinese value added, Chinese FDI, and illegal origin evasion as distinct outcomes. The Federal Reserve's value-added estimates end in 2020 and its rerouting analysis runs through 2022; do not extrapolate either result to 2025.",
   },
   {
     title: "4. Inventory and logistics normalization",
     question: "Did inventories and delivery constraints normalize after the acute 2020-2021 disruption?",
-    evidence: "Use Census inventory-to-sales measures by sector and primary logistics/delivery indicators with consistent definitions. Separate U.S. inventory levels from China-specific supply reliability.",
+    evidence: "Use Census Manufacturing and Trade Inventories and Sales data by sector. The New York Fed GSCPI and Federal Reserve port indicators can contextualize global pressure, but neither is a China-specific firm delivery-time measure. Separate inventory levels from reported firm strategy and supply reliability.",
   },
   {
     title: "5. 2024-2025 endpoint and limits",
@@ -42,6 +42,8 @@ const sourceLinks = [
   { label: "BEA, International Services Expanded", href: "https://www.bea.gov/data/intl-trade-investment/international-services-expanded", type: "PRIMARY DATA" },
   { label: "Census Bureau, Manufacturing and Trade Inventories and Sales", href: "https://www.census.gov/mtis/index.html", type: "PRIMARY DATA / INVENTORY" },
   { label: "New York Fed, Global Supply Chain Pressure Index", href: "https://www.newyorkfed.org/research/policy/gscpi", type: "AGGREGATE LOGISTICS INDICATOR" },
+  { label: "BLS, Import/Export Price Indexes: data and series identifiers", href: "https://www.bls.gov/mxp/data/", type: "PRICE DEFLATOR CANDIDATE" },
+  { label: "Hoang and Lewis (2024), As the U.S. Is Derisking from China, Other Foreign U.S. Suppliers Are Relying More on Chinese Imports, FEDS Notes", href: "https://www.federalreserve.gov/econres/notes/feds-notes/as-the-u-s-is-derisking-from-china-Other-foreign-u-s-suppliers-are-relying-more-on-chinese-imports-20240802.html", type: "FEDERAL RESERVE RESEARCH" },
   { label: "Fajgelbaum et al. (2024), The U.S.-China Trade War and Global Reallocations, AER: Insights 6(2), 295-312", href: "https://www.aeaweb.org/articles?id=10.1257/aeri.20230094", type: "PEER-REVIEWED RESEARCH" },
   { label: "Alfaro and Chor (2023), Global Supply Chains: The Looming Great Reallocation, NBER Working Paper 31661", href: "https://www.nber.org/papers/w31661", type: "ACADEMIC WORKING PAPER" },
 ];
@@ -81,7 +83,7 @@ export default function PostCovidRecoveryPatternPaperPage() {
 
         <section className="mt-8 rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 sm:p-10">
           <p className="text-[10px] uppercase tracking-[0.34em] text-[var(--accent-soft)]">Data and literature starting points</p>
-          <p className="mt-4 leading-7 text-white/65">Required dataset metadata: source/table or series, measure, country/product scope, frequency, units, price basis, seasonal adjustment, coverage, retrieval date/vintage, transformation, and known limitations. Current project CSVs are static and have no recorded retrieval vintage. Census annual partner totals and monthly product-level data should be separately versioned; Census inventory measures describe stock levels but not firms&apos; motives for holding them. The New York Fed GSCPI is a global indicator, not a China-specific reliability measure.</p>
+          <p className="mt-4 leading-7 text-white/65">Required dataset metadata: source/table or series, measure, country/product scope, frequency, units, price basis, seasonal adjustment, coverage, retrieval date/vintage, transformation, and known limitations. Current project CSVs are static and have no recorded retrieval vintage. Census annual partner totals and monthly product-level data should be separately versioned; Census inventory measures describe stock levels but not firms&apos; motives for holding them. BLS locality-of-origin price indexes may support a price adjustment, but should not be presented as China-specific physical-volume measures unless their scope supports that interpretation. The New York Fed GSCPI is a global indicator, not a China-specific reliability measure.</p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {sourceLinks.map((source) => (
               <a key={source.label} href={source.href} target="_blank" rel="noreferrer" className="rounded-xl border border-white/10 p-4 text-white/80 transition hover:border-[var(--accent)]">
