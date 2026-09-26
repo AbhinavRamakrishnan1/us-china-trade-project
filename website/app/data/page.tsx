@@ -6,7 +6,9 @@ const sources = [
   { name: "FRED: U.S. Exports of Goods by F.A.S. Basis to Mainland China (EXPCH)", url: "https://fred.stlouisfed.org/series/EXPCH", note: "Monthly nominal millions of dollars, not seasonally adjusted; Census/BEA source. F.A.S. export valuation differs from the import customs basis." },
   { name: "U.S. Census Bureau: Trade in Goods with China", url: "https://www.census.gov/foreign-trade/balance/c5700.html", note: "Official bilateral goods-trade reference for comparison and verification." },
   { name: "Federal Reserve: Global trade after the 2018–19 tariff hikes", url: "https://www.federalreserve.gov/econres/notes/feds-notes/global-trade-patterns-in-the-wake-of-the-2018-2019-u-s-china-tariff-hikes-20240412.html", note: "Research on trade-pattern changes following the tariff increases." },
-  { name: "Federal Reserve: Supply bottlenecks and inflation", url: "https://www.federalreserve.gov/monetarypolicy/2021-07-mpr-part1.htm", note: "Macroeconomic discussion of supply constraints and shipping pressure." },
+  { name: "Federal Reserve Board (2021), Monetary Policy Report", url: "https://www.federalreserve.gov/monetarypolicy/2021-07-mpr-part1.htm", note: "Documents strong U.S. goods demand, supply constraints, import prices, and port congestion; not China-only firm-level evidence." },
+  { name: "Federal Reserve (2022), Bottlenecks, Shortages, and Soaring Prices", url: "https://www.federalreserve.gov/econres/notes/feds-notes/bottlenecks-shortages-and-soaring-prices-in-the-us-economy-20220624.html", note: "Analyzes demand reallocation, capacity constraints, port throughput, and prices as interacting causes." },
+  { name: "Federal Reserve Bank of New York, Global Supply Chain Pressure Index", url: "https://www.newyorkfed.org/research/policy/gscpi", note: "Aggregate global pressure index built from transportation-cost and supply-chain indicators; not a China-specific port or delivery-time series." },
 ];
 
 export default function DataPage() {
@@ -26,7 +28,8 @@ export default function DataPage() {
             <article><span>File</span><strong>clean_trade_analysis.csv</strong><p>Project-prepared monthly table, downloadable for inspection.</p></article>
             <article><span>Observed coverage</span><strong>Jan 2016 – Jan 2026</strong><p>121 rows. The file does not establish a complete 2025 calendar year.</p></article>
             <article><span>Fields</span><strong>Imports · Exports · Balance</strong><p>Also includes month-over-month percentage changes and a broad period label.</p></article>
-            <article><span>Source and measure</span><strong>Census Bureau / BEA series via FRED</strong><p>IMPCH is goods imports from China on a customs basis; EXPCH is goods exports to mainland China on an F.A.S. basis. The series IDs and metadata match the supplied raw files.</p></article>
+            <article><span>Imports</span><strong>U.S. Imports of Goods by Customs Basis from China · IMPCH</strong><p>Source: U.S. Census Bureau and Bureau of Economic Analysis, distributed by the Federal Reserve Bank of St. Louis (FRED). Monthly; millions of nominal U.S. dollars; not seasonally adjusted; customs valuation. Project coverage: Jan 2016–Jan 2026.</p></article>
+            <article><span>Exports</span><strong>U.S. Exports of Goods by F.A.S. Basis to Mainland China · EXPCH</strong><p>Source: U.S. Census Bureau and Bureau of Economic Analysis, distributed by FRED. Monthly; millions of nominal U.S. dollars; not seasonally adjusted; F.A.S. valuation. Project coverage: Jan 2016–Jan 2026.</p></article>
             <article><span>Frequency and units</span><strong>Monthly · nominal USD millions</strong><p>Both series are not seasonally adjusted. Because imports and exports use different valuation bases, the project balance is a descriptive difference, not a harmonized national-accounts balance.</p></article>
             <article><span>Snapshot vintage</span><strong>Not recorded</strong><p>The original download date/vintage is absent. FRED/Census observations may be revised; this local CSV is a static extract, not a live feed.</p></article>
           </div>
@@ -36,11 +39,22 @@ export default function DataPage() {
         <section className="research-section" aria-labelledby="method-title">
           <p className="research-kicker">Method notes</p><h2 id="method-title">How to interpret the columns</h2>
           <div className="method-notes">
-            <p><strong>Trade balance:</strong> calculated as imports minus exports, so positive values mean a deficit. This combines customs-basis imports and F.A.S.-basis exports and should not be presented as the official Census balance series.</p>
-            <p><strong>Monthly change:</strong> calculated as the percentage change from the previous observation; the first month is blank because no prior month is included.</p>
+            <p><strong>Trade deficit (positive convention):</strong> the project calculates <code>Imports - Exports</code>. It combines customs-basis imports and F.A.S.-basis exports and should not be presented as the official Census balance series.</p>
+            <p><strong>Monthly change:</strong> <code>((current month / previous month) - 1) × 100</code>, calculated separately for imports and exports with pandas <code>pct_change() * 100</code>. The first month is blank because no prior month is included.</p>
             <p><strong>Period labels:</strong> broad project bins created in <code>main.py</code>; they are not official statistical classifications and do not isolate causal effects.</p>
             <p><strong>Coverage and revisions:</strong> this extract contains 121 monthly observations from January 2016 through January 2026; it does not represent a complete 2025 year. FRED identifies Census/BEA as the source, but the local retrieval date/vintage is unknown and historical observations may be revised.</p>
           </div>
+        </section>
+
+        <section className="research-section" aria-labelledby="reconciliation-title">
+          <p className="research-kicker">Annual reconciliation</p><h2 id="reconciliation-title">Census totals and this snapshot differ</h2>
+          <p>The Census annual table is the reference for the paper&apos;s annual deficit figures. The following compares it with sums of the matching calendar-year monthly rows in the local FRED-derived file (USD millions; local minus Census):</p>
+          <div className="method-notes">
+            <p><strong>2023:</strong> Census deficit 279,607.8; monthly snapshot 279,611.1; difference +3.3.</p>
+            <p><strong>2024:</strong> Census deficit 297,047.7; monthly snapshot 295,515.2; difference −1,532.5.</p>
+            <p><strong>2025:</strong> Census deficit 202,674.1; monthly snapshot 202,071.3; difference −602.8.</p>
+          </div>
+          <p>2016–2022 sums agree with the currently displayed Census annual table to the shown precision. The 2024–2025 differences are material. Because the local retrieval vintage was not preserved, this project cannot determine the cause; the figures are not forced to match or silently substituted. The comparison does not establish whether revisions, timing, valuation, or another extraction difference explains the gaps.</p>
         </section>
 
         <section className="research-section" aria-labelledby="sources-title">
