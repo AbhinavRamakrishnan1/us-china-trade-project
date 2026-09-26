@@ -64,7 +64,7 @@ const paperSections = [
 ];
 
 const bibliographyGuidance = [
-  "Freight and shipping data: Drewry World Container Index; Freightos Baltic Index; Marine Exchange of Southern California vessel-queue and port-call data for Los Angeles/Long Beach.",
+  "Potential route-specific freight data: Drewry World Container Index or Freightos Baltic Index. Do not use the published figures below until the exact dated series and route/composite definition are archived and cited; the current draft relies on Federal Reserve Board reports for aggregate charter-rate and congestion evidence.",
   "Government data: U.S. Census Bureau trade-in-goods data by category, U.S. imports from China, 2019-2022; Census Bureau manufacturing and retail inventory-to-sales ratios; BLS CPI durable-goods and core-goods components; BEA data on personal consumption expenditure shifts toward goods, 2020-2021.",
   "Industry survey data: ISM Manufacturing Report on Business, supplier deliveries and inventories indexes, 2019-2022.",
   "Sector-specific evidence: semiconductor shortage timeline and automotive production data (SIA, Federal Reserve industrial production releases, or trade press with verifiable sourcing).",
@@ -73,7 +73,7 @@ const bibliographyGuidance = [
 ];
 
 const suggestedFigures = [
-  "Line chart: Drewry World Container Index (or Freightos Baltic Index), weekly, 2019-2022, with the 2019 average and September 2021 peak labeled.",
+  "Potential line chart: Federal Reserve Board February 2022 Monetary Policy Report's vessel schedule-reliability and container-ship charter-rate measures, subject to extracting and documenting the underlying series and vintage.",
   "Line chart: ISM supplier-deliveries index, monthly, 2019-2022, to show the depth and duration of delivery slowdowns.",
   "Line chart: Census manufacturing and retail inventory-to-sales ratios, 2019-2022, to show the shift toward larger safety stocks.",
   "Bar or line chart: U.S. imports from China by product category (durable consumer goods vs. other), 2019-2021, to show which categories drove the demand surge.",
@@ -166,7 +166,7 @@ export default function CovidSupplyChainPaperPage() {
         <section className="mt-10 grid gap-6 lg:grid-cols-3">
           <article className="rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-6 lg:col-span-1">
             <p className="text-[10px] uppercase tracking-[0.34em] text-[var(--accent-soft)]">
-              Bibliography Guidance
+              Additional Sources to Collect
             </p>
             <div className="mt-5 space-y-4 text-sm leading-7 text-white/64">
               {bibliographyGuidance.map((item) => (

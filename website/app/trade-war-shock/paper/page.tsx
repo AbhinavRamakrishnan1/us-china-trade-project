@@ -39,13 +39,13 @@ const paperSections = [
     heading: "Uncertainty and Firm Planning",
     paragraphs: [
       "A changing tariff schedule can create uncertainty distinct from the tariff rate ultimately paid. Handley and Limão's work on China's WTO accession studies the effects of reducing trade-policy uncertainty in a different setting; it motivates a mechanism but does not directly establish the 2018-2019 U.S. firm response. Caldara et al. (2019) construct trade-policy uncertainty measures and report investment effects using firm-level and aggregate evidence. Applying those results to specific front-loading or sourcing behaviors during this tariff episode requires direct data.",
-      "Trade-policy uncertainty provides a plausible channel for firms to delay or alter investment, but this draft has not assembled firm-level or regional survey evidence showing that shipment frontloading, inventory buffers, and delayed capital spending were widespread in 2018-2019. Caldara et al. (2020) study the economic effects of trade-policy uncertainty, including investment responses; applying that result to specific behaviors by U.S. firms in this episode requires direct evidence. The optionality mechanism is therefore a hypothesis here, not an observed project finding.",
+      "Trade-policy uncertainty provides a plausible channel for firms to delay or alter investment, but this draft has not assembled firm-level or regional survey evidence showing that shipment frontloading, inventory buffers, and delayed capital spending were widespread in 2018-2019. Caldara et al. (2019) study the economic effects of trade-policy uncertainty, including investment responses; applying that result to specific behaviors by U.S. firms in this episode requires direct evidence. The optionality mechanism is therefore a hypothesis here, not an observed project finding.",
     ],
   },
   {
     heading: "Bilateral Relations and the WTO Context",
     paragraphs: [
-      "China challenged U.S. Section 301 tariff measures in WTO disputes DS543 and DS565. The United States separately challenged Chinese additional duties in DS558, a dispute concerning China's response to U.S. steel and aluminum measures under Section 232; it should not be described as a direct reciprocal WTO case about the Section 301 actions. The USTR records the Phase One agreement's signature on January 15, 2020; the existing Section 301 actions continued afterward. The policy and dispute records should be read separately.",
+      "China requested consultations over U.S. Section 301 measures in WTO disputes DS543 (April 4, 2018) and DS565 (August 23, 2018). The United States separately requested consultations in DS558 (July 16, 2018) concerning Chinese additional duties following U.S. steel and aluminum measures under Section 232; it should not be described as a direct reciprocal WTO case about Section 301. The USTR records the Phase One agreement's signature on January 15, 2020; the existing Section 301 actions continued afterward. The policy and dispute records should be read separately.",
     ],
   },
   {
@@ -80,11 +80,9 @@ const suggestedFigures = [
 ];
 
 const evidenceNeeds = [
-  "USTR/Federal Register: exact effective dates and rates for each Section 301 tariff list, and any subsequent modifications or exclusions granted.",
   "Census Bureau: bilateral trade values by HS code for China, Vietnam, Mexico, and Taiwan, 2017-2020, to support the sourcing-shift argument.",
   "BLS: import price index series broken out by tariffed vs. non-tariffed product categories, to date the timing of price pass-through against tariff effective dates.",
   "USDA: Market Facilitation Program payment totals, to quantify the fiscal offset to agricultural retaliation losses.",
-  "WTO: case numbers, filing dates, and status for the relevant U.S.-China disputes filed during this period.",
   "Regional Federal Reserve surveys: specific survey questions and response data on firm sourcing and capex plans during 2018-2019.",
   "A trade policy uncertainty index dataset (Caldara et al. or equivalent), for the uncertainty-investment chart.",
 ];
@@ -97,7 +95,11 @@ const verifiedReferences = [
   { label: "USDA Farm Service Agency (2018), Market Facilitation Program fact sheet", note: "Documents assistance to eligible agricultural producers affected by foreign retaliatory tariffs; it is not a causal estimate of producer losses.", href: "https://www.fsa.usda.gov/sites/default/files/documents/Market_Facilitation_Program_Fact_Sheet_September_2018B.pdf" },
   { label: "Hoang & Lewis (2024), Federal Reserve FEDS Notes", note: "Finds limited evidence of rerouting through third countries through 2022; discusses indirect reliance and data limits, not shipment-level proof of illegal transshipment.", href: "https://www.federalreserve.gov/econres/notes/feds-notes/as-the-u-s-is-derisking-from-china-Other-foreign-u-s-suppliers-are-relying-more-on-chinese-imports-20240802.html" },
   { label: "Caldara et al. (2019), Federal Reserve IFDP 1256", note: "Preliminary working paper measuring trade-policy uncertainty and investment responses; it does not verify specific 2018-2019 shipment-frontloading claims.", href: "https://www.federalreserve.gov/econres/ifdp/files/ifdp1256.pdf" },
-  { label: "WTO, disputes DS543, DS565, and DS558", note: "DS543 and DS565 concern China's challenges to U.S. tariff measures; DS558 concerns a distinct U.S. challenge to Chinese duties following Section 232 actions.", href: "https://www.wto.org/english/tratop_e/dispu_e/cases_e/ds543_e.htm" },
+  { label: "Handley & Limão (2017), Policy Uncertainty, Trade, and Welfare, American Economic Review 107(9), 2731-2783", note: "Studies uncertainty around China's WTO accession, not the 2018-2019 U.S. firm response.", href: "https://www.aeaweb.org/articles?id=10.1257/aer.20141419" },
+  { label: "WTO DS543: United States — Tariff Measures on Certain Goods from China", note: "China's April 2018 complaint challenging U.S. Section 301 tariff measures.", href: "https://www.wto.org/english/tratop_e/dispu_e/cases_e/ds543_e.htm" },
+  { label: "WTO, DS565: United States — Tariff Measures on Certain Goods from China II", note: "China's August 2018 complaint concerning additional U.S. tariff measures.", href: "https://www.wto.org/english/tratop_e/dispu_e/cases_e/ds565_e.htm" },
+  { label: "WTO, DS558: China — Additional Duties on Certain Products from the United States", note: "U.S. complaint about separate Chinese additional duties following U.S. Section 232 measures; not a reciprocal Section 301 case.", href: "https://www.wto.org/english/tratop_e/dispu_e/cases_e/ds558_e.htm" },
+  { label: "USTR (2020), Economic and Trade Agreement Between the United States and China (Phase One)", note: "Official agreement and date record; the tariff schedules should be checked separately for actions that remained in force.", href: "https://ustr.gov/phase-one" },
 ];
 
 export default function TradeWarShockPaperPage() {
