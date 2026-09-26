@@ -323,6 +323,15 @@ const defaultProfile: VisitorProfile = {
   interest: "Tariffs & Trade War",
 };
 
+const navLinkClassName = "navLink";
+
+const stagePanelBaseStyle: CSSProperties = {
+  position: "fixed",
+  inset: 0,
+  zIndex: 30,
+  overflow: "hidden",
+};
+
 const getStoredProfile = (): VisitorProfile => {
   if (typeof window === "undefined") {
     return defaultProfile;
@@ -444,6 +453,15 @@ export default function Page() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const stagePanelStyle = (isVisible: boolean, background: string): CSSProperties => ({
+    ...stagePanelBaseStyle,
+    background,
+    opacity: isVisible ? 1 : 0,
+    transform: isVisible ? "scale(1)" : "scale(1.02)",
+    visibility: isVisible ? "visible" : "hidden",
+    pointerEvents: isVisible ? "auto" : "none",
+  });
+
   return (
     <main
       className="page"
@@ -462,13 +480,33 @@ export default function Page() {
     >
       <div className="cursorGlow" aria-hidden="true" />
 
-      <section className={`intro stagePanel ${stage !== "intro" ? "panelHidden" : ""}`}>
+      <section
+        className={`intro stagePanel ${stage !== "intro" ? "panelHidden" : ""}`}
+        style={stagePanelStyle(
+          stage === "intro",
+          "linear-gradient(180deg, #0d1220 0%, #0a1627 55%, #09111d 100%)",
+        )}
+      >
         <div className="introAura introAuraA" aria-hidden="true" />
         <div className="introAura introAuraB" aria-hidden="true" />
         <div className="introGrid" aria-hidden="true" />
         <div className={`introWipe ${stage !== "intro" ? "introWipeActive" : ""}`} aria-hidden="true" />
 
-        <div className="shell introInner">
+        <div
+          className="shell introInner"
+          style={{
+            position: "relative",
+            zIndex: 1,
+            display: "flex",
+            width: "min(1580px, calc(100% - var(--intro-shell-gutter, 72px)))",
+            minHeight: "100vh",
+            margin: "0 auto",
+            paddingBlock: 48,
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
           <p className="kicker">Trade Shock Observatory</p>
           <p className="typing">
             {introText.slice(0, typedCount)}
@@ -508,7 +546,13 @@ export default function Page() {
         </div>
       </section>
 
-      <section className={`customize stagePanel ${stage !== "customize" ? "panelHidden" : ""}`}>
+      <section
+        className={`customize stagePanel ${stage !== "customize" ? "panelHidden" : ""}`}
+        style={stagePanelStyle(
+          stage === "customize",
+          "radial-gradient(circle at 18% 20%, rgba(102, 235, 255, 0.12), transparent 24%), radial-gradient(circle at 80% 75%, rgba(193, 255, 99, 0.08), transparent 22%), linear-gradient(180deg, #07111b 0%, #0b1627 100%)",
+        )}
+      >
         <div className="customizeAura customizeAuraA" aria-hidden="true" />
         <div className="customizeAura customizeAuraB" aria-hidden="true" />
 
@@ -594,21 +638,29 @@ export default function Page() {
         </div>
       </section>
 
-      <section className={`site ${stage === "site" ? "siteVisible" : ""}`}>
+      <section
+        className={`site ${stage === "site" ? "siteVisible" : ""}`}
+        style={{
+          opacity: stage === "site" ? 1 : 0,
+          transform: stage === "site" ? "translateY(0)" : "translateY(36px)",
+          pointerEvents: stage === "site" ? "auto" : "none",
+          visibility: stage === "site" ? "visible" : "hidden",
+        }}
+      >
         <header className="topbar">
           <div className="shell topbarInner">
             <Link href="/" className="brand">
               Trade Shock Observatory
             </Link>
             <nav className="nav">
-              <a href="#insights">Insights</a>
-              <a href="#platform-info">Platform</a>
-              <a href="#projects">Projects</a>
-              <Link href="/data">Data</Link>
-              <Link href="/glossary">Glossary</Link>
-              <a href="#methodology">Methodology</a>
-              <a href="#researcher">Researcher</a>
-              <a href="#contact">Contact</a>
+              <a className={navLinkClassName} href="#insights">Insights</a>
+              <a className={navLinkClassName} href="#platform-info">Platform</a>
+              <a className={navLinkClassName} href="#projects">Projects</a>
+              <Link className={navLinkClassName} href="/data">Data</Link>
+              <Link className={navLinkClassName} href="/glossary">Glossary</Link>
+              <a className={navLinkClassName} href="#methodology">Methodology</a>
+              <a className={navLinkClassName} href="#researcher">Researcher</a>
+              <a className={navLinkClassName} href="#contact">Contact</a>
             </nav>
           </div>
         </header>
@@ -1443,7 +1495,7 @@ export default function Page() {
         }
 
         .brand,
-        .nav a {
+        .navLink {
           color: #ecf4ff;
           font-size: 11px;
           font-weight: 700;
@@ -1457,7 +1509,7 @@ export default function Page() {
           gap: 22px;
         }
 
-        .nav a {
+        .navLink {
           display: inline-flex;
           min-height: 40px;
           align-items: center;
@@ -2456,6 +2508,10 @@ export default function Page() {
         }
 
         @media (max-width: 640px) {
+          .introInner {
+            --intro-shell-gutter: 28px;
+          }
+
           .shell {
             width: min(100% - 28px, 1580px);
           }
