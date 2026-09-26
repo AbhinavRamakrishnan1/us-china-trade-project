@@ -75,7 +75,7 @@ const bibliographyGuidance = [
 
 const suggestedFigures = [
   "Line chart: U.S. bilateral goods trade deficit with China, annual, 2016-2025, with the 2018 peak and 2025 figure labeled.",
-  "Line chart: U.S. bilateral goods deficits with China, Vietnam, and Mexico plotted together, 2016-2025, to show the diversion pattern.",
+  "Comparative line chart: U.S. bilateral goods deficits with China, Vietnam, and Mexico, 2016-2025. Label it as a descriptive comparison only; a shared trend does not by itself establish trade diversion or causal substitution.",
   "Line chart: U.S. gross national saving and gross domestic investment as shares of GDP, 2016-2025, to illustrate the structural saving-investment gap alongside the bilateral deficit trend.",
   "Bar chart: U.S. imports from China as a share of total U.S. imports, comparing U.S.-reported data against China-reported export data, to visualize the \"missing imports\" discrepancy.",
   "Table: side-by-side comparison of the aggregate U.S. goods and services deficit versus the bilateral China deficit, by year, to show whether aggregate and bilateral trends diverge.",
