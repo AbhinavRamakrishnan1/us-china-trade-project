@@ -1,5 +1,0 @@
-[build]
-  command = "npm --prefix website ci && npm --prefix website run build"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
