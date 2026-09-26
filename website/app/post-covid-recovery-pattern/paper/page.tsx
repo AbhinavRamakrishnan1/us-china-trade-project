@@ -85,7 +85,7 @@ export default function PostCovidRecoveryPatternPaperPage() {
           </div>
           <h2 className="mt-8 font-[family:var(--font-display)] text-2xl">Claims to avoid without stronger evidence</h2>
           <ul className="mt-4 space-y-2 leading-7 text-white/65">
-            <li>Do not equate growth in a third country's U.S. exports with transshipment or Chinese value added.</li>
+            <li>Do not equate growth in a third country&apos;s U.S. exports with transshipment or Chinese value added.</li>
             <li>Do not claim the pre-2020 supply chain returned, or that firms broadly adopted durable “just-in-case” strategies, without defined measures and firm-level evidence.</li>
             <li>Do not attribute the observed post-2022 trade path to tariffs or resilience programs from descriptive trends alone.</li>
             <li>Do not equate nominal trade-value recovery with real volume recovery or improved delivery reliability.</li>
