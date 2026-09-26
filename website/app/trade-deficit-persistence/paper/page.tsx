@@ -11,7 +11,7 @@ const paperSections = [
     heading: "Introduction",
     paragraphs: [
       "Across the period covered by this broader research project, from the opening tariff actions of 2018 through the pandemic-era logistics crisis and into the partial recovery and diversification of 2022 to 2025, the U.S. goods deficit with China remained large even as it declined. In the current Census annual table, it was $418.2 billion in 2018, $297.0 billion in 2024, and $202.7 billion in 2025. These are nominal goods-trade figures and can change with revisions. The U.S. overall goods-and-services balance is a separate aggregate measure. This paper asks why the bilateral imbalance remained economically significant as the policy narrative changed.",
-      "The thesis advanced here is that the U.S.-China deficit is not primarily a bilateral phenomenon that bilateral policy tools can resolve. It is better understood as one visible expression of a structural gap between how much the United States as a whole saves and how much it invests, a gap that shows up in the trade balance almost by accounting necessity and that tariffs targeted at a single trading partner do not close, because the underlying spending pattern can simply redirect toward other suppliers. This does not mean the bilateral relationship with China is irrelevant, only that the persistence of the imbalance across such different shock periods is itself evidence pointing toward a structural rather than a purely policy-driven explanation.",
+      "The thesis advanced here is that the bilateral deficit is not a direct measure of aggregate U.S. saving or investment, and that a tariff aimed at one supplier may change the geography and composition of imports without mechanically eliminating an aggregate external imbalance. The national saving-investment identity is useful context for the U.S. current account, but it does not by itself explain the China-specific bilateral balance. Whether policy or supply-chain changes explain its persistence must be tested against bilateral and product-level evidence rather than inferred from the identity.",
     ],
   },
   {
@@ -22,10 +22,10 @@ const paperSections = [
     ],
   },
   {
-    heading: "The Macro Identity: Why Bilateral Deficits Are Structural",
+    heading: "Aggregate Identities and the Bilateral Balance",
     paragraphs: [
       "The national income accounting identity relates the current-account balance to national saving minus domestic investment (subject to statistical discrepancies). It does not say that a bilateral goods balance equals the national saving-investment gap. The identity is an aggregate accounting relationship, not by itself a causal explanation for the size or persistence of the U.S.-China bilateral deficit. Demonstrating how the aggregate saving-investment gap evolved from 2016 to 2025 would require a separate, consistently sourced national-accounts series.",
-      "The relevance of this identity to a bilateral deficit with one country, rather than the aggregate deficit with the world, is indirect but important. A tariff on Chinese goods specifically does not change U.S. national saving or investment behavior; it changes which country the United States buys from. If U.S. consumers and firms continue to spend more than the country saves, the aggregate deficit persists, and it will show up somewhere in the bilateral accounts, whether concentrated in China or redistributed across Vietnam, Mexico, and other suppliers. This is the analytical foundation for treating the persistence of the imbalance across three very different shock periods as evidence of a structural cause rather than a policy failure specific to any one administration's tariff design.",
+      "The identity offers only indirect context for a bilateral balance. Tariffs can affect prices, quantities, domestic production, and potentially saving and investment decisions; an accounting identity alone does not tell us which effects dominate. Changes in the U.S.-China balance and in balances with Vietnam, Mexico, or other partners must be measured directly. The present project data describe bilateral monthly trade and do not identify the causal contribution of any one policy or macroeconomic mechanism.",
     ],
   },
   {
@@ -47,7 +47,7 @@ const paperSections = [
     heading: "Political Rhetoric Versus Structural Economic Forces",
     paragraphs: [
       "A bilateral deficit is not, by itself, evidence of unfair trade practices or economic weakness. Nor does an aggregate saving-investment identity determine the bilateral composition of trade. Sector-specific employment, value-added, and adjustment costs may still matter, but this draft does not include the BEA/BLS sector evidence needed to assess those effects empirically.",
-      "The political framing across this period tended to treat the bilateral deficit with China as a scorecard for whether trade policy was \"working,\" a framing this paper treats with some skepticism, given that the macro identity described above implies the aggregate deficit responds mainly to national saving and investment behavior, which tariffs targeted at one country do not directly address. A more economically grounded framing would ask whether the composition of the deficit, the sectors involved, and the degree of exposure to a single foreign supplier for critical inputs, changed in ways that matter for resilience and bargaining leverage, independent of whether the headline dollar figure went up or down in any given year.",
+      "The political framing across this period often treated the bilateral deficit with China as a scorecard for whether trade policy was \"working.\" A more complete assessment would separately examine the aggregate current account, bilateral goods trade, sector composition, and exposure to particular suppliers. Whether those changes affected resilience or bargaining leverage requires evidence beyond the headline dollar balance.",
     ],
   },
   {
@@ -85,7 +85,7 @@ const suggestedFigures = [
 const evidenceNeeds = [
   "Complete annual Census Bureau bilateral goods trade balance figures for China, 2016-2021, to fill the gap in the timeline between the 2018 peak and the 2022 figure already sourced.",
   "Quarterly bilateral trade data for 2020-2021 specifically, to test whether the supply-chain disruption period saw the deficit widen, narrow, or hold steady.",
-  "FRED data on U.S. national saving and investment as shares of GDP, 2016-2025, to substantiate the structural macro identity argument with real numbers rather than a general accounting claim.",
+  "FRED national-accounts data for aggregate current-account context; these data cannot establish a bilateral China-specific saving-investment mechanism.",
   "Comparable product-level Census data for China, Vietnam, and Mexico, plus input-output or value-added evidence, to distinguish direct trade diversion from Chinese-origin goods, intermediate inputs, and transshipment.",
   "Census bilateral trade data for Vietnam and Mexico, 2016-2025, to pair against the China data for the diversion chart.",
   "BEA services trade data with China, annual, 2016-2025, to complete the goods-versus-services balance picture.",

@@ -11,7 +11,7 @@ const paperSections = [
     heading: "Introduction",
     paragraphs: [
       "The COVID-19 pandemic disrupted U.S.-China trade through overlapping production constraints, shifts in U.S. demand, and logistics bottlenecks. Federal Reserve reporting documents strong goods demand, port congestion, shipping delays, and sharply higher freight costs. The precise claim that Transpacific rates rose fivefold in a particular eighteen-month period requires a named route index and dated observations; it is not established by aggregate Federal Reserve evidence alone.",
-      "This paper treats that second disruption as the central object of analysis. The question is not whether trade in goods between the U.S. and China fell during this period; in aggregate dollar terms, it did not fall for long, and by some measures it recovered and exceeded pre-pandemic levels within months. The more interesting question is how the reliability of that trade broke down, and what firms did in response. The thesis is that the supply-chain crisis functioned as a production and logistics shock distinct from the health crisis that triggered it, that the unpredictability of shipping times mattered to firms as much as the average delay, and that the response, particularly the shift from lean, just-in-time inventory management toward larger safety stocks, left a durable mark on how U.S. importers manage their relationship with Chinese suppliers even after the acute congestion eased.",
+      "This paper treats the later logistics disruption as a central research question. Census nominal trade values show that bilateral goods trade did not remain below pre-pandemic levels throughout the episode, but nominal values do not measure physical volume or delivery reliability. This paper separates production constraints, changes in U.S. demand, and logistics bottlenecks. Whether shipping-time uncertainty changed firm inventory strategies or left a durable mark on China sourcing remains unestablished without direct firm-level evidence.",
     ],
   },
   {
@@ -25,28 +25,28 @@ const paperSections = [
     heading: "From Health Shock to Production Shock",
     paragraphs: [
       "It is useful to distinguish production constraints, logistics bottlenecks, and shifts in U.S. demand; these channels overlapped and varied by industry and location. Federal Reserve analysis describes several of these pressures, but the claim that Chinese manufacturing was largely operational by a particular date, or that one channel did more economic damage than another, requires separate comparative evidence. This draft does not rank their effects.",
-      "This distinction matters for how the shock should be classified. Framing 2020-2021 purely as a public-health disruption implies the trade effects should have faded once vaccination and reopening proceeded. Framing it as a production and logistics shock, with the health crisis as the trigger rather than the ongoing cause, better explains why disruption persisted well into 2021 and, in some categories such as semiconductors, into 2022, long after most direct health restrictions on manufacturing had eased. [Add semiconductor shortage timeline and automotive production-cut data, 2021-2022, here, as the clearest example of a lagged, compounding effect.]",
+      "This distinction matters for classification: production, shipping, labor, and demand constraints could persist on different timelines. Federal Reserve reporting documents continuing materials shortages and shipping bottlenecks into 2021; separate semiconductor and automotive production data would be needed to establish the industry's timing and magnitude into 2022. The chronology does not by itself identify which shock caused the persistence.",
     ],
   },
   {
     heading: "Freight Rates, Port Congestion, and the Container Imbalance",
     paragraphs: [
-      "The clearest quantitative signal of the logistics breakdown is the freight rate data. The Drewry World Container Index, a composite benchmark covering major global container routes, averaged around $1,420 per 40-foot container in 2019. By September 2021 the same composite index reached a peak of $10,377, more than seven times the pre-pandemic average, driven in large part by Transpacific routes connecting Chinese ports to the U.S. West Coast. Rates of that magnitude reflect more than higher fuel or labor costs; they reflect a market in which available capacity, meaning ships and, critically, empty containers positioned where exporters needed them, had become the binding constraint on trade rather than underlying demand.",
-      "Port congestion compounded the container shortage. Vessels queued for extended periods outside the ports of Los Angeles and Long Beach, which together handle a large share of U.S. containerized imports from Asia, and dwell times for unloading and clearing cargo lengthened well beyond historical norms. [Add Marine Exchange of Southern California vessel-queue data and port dwell-time statistics, 2020-2021, here.] A separate, shorter but symbolically significant disruption occurred in March 2021, when the container ship Ever Given ran aground and blocked the Suez Canal for six days, from March 23 to March 29, halting a corridor that carries a substantial share of Asia-Europe trade and forcing some vessels to reroute around the Cape of Good Hope. The Suez blockage affected the Asia-Europe leg more directly than the Transpacific leg relevant to U.S.-China trade, but it illustrated a broader point relevant to this paper: a shipping network already operating with minimal slack had little capacity to absorb even a temporary, localized disruption without effects propagating through the wider system for weeks afterward.",
-      "The container imbalance itself deserves separate mention. Because U.S. imports from China vastly exceeded U.S. exports to China in volume terms, empty containers accumulated at U.S. ports faster than they could be returned to Asia, and carriers found it more profitable to rush empty containers back for another high-priced Transpacific loop than to wait for them to be filled with U.S. export cargo. [Add data on container repositioning and empty-container return rates, if available, here.] That dynamic imposed a cost on U.S. exporters, particularly in agriculture, who reported difficulty securing containers and equipment even when buyers were willing to pay, a detail that connects the logistics shock back to the trade-balance themes running through this broader research project.",
+      "Federal Reserve Board staff documented sharply higher container-ship charter rates and lower vessel schedule reliability during 2021, alongside high container volumes and port congestion. A Drewry World Container Index figure is not interchangeable with a charter-rate or route-specific index: this draft does not use a quantified Drewry peak because the underlying weekly series and route composition are not archived here. The price of ocean freight reflects capacity, demand, and operating conditions; the index alone would not prove that capacity was the sole binding constraint.",
+      "Federal Reserve Board analysis reports that since fall 2020 the Port of Los Angeles averaged more than ten ships waiting at anchor at a time, with delays linked to unprecedented import volumes and COVID-related labor constraints. This supports the presence of congestion; project-specific vessel-queue and dwell-time series are still needed to describe its exact severity over the full period. The March 2021 Ever Given blockage was a separate Suez Canal event on the Asia-Europe route, not direct evidence about Transpacific shipping. Its broader implications for spillovers would require dedicated shipping-network evidence.",
+      "Federal Reserve reporting describes carriers returning empty containers because inbound rates were higher than outbound rates, and notes that outbound loaded-container counts remained below pre-pandemic levels until March 2021. This documents an aggregate container-flow imbalance, not the claim that the bilateral U.S.-China goods deficit in dollars directly measures container counts. The effects on particular U.S. exporters, including agriculture, require sector-specific shipping evidence.",
     ],
   },
   {
     heading: "Inventory Strategy and the Shift Away from Just-in-Time",
     paragraphs: [
-      "For decades, U.S. manufacturers and retailers had organized sourcing around just-in-time inventory management, minimizing warehousing costs by timing deliveries closely to need. That model assumes delivery times are predictable even if not always short. The 2020-2021 episode broke that assumption: lead times on Chinese-sourced goods that had historically taken four to six weeks stretched, in many categories, to three or four months, and the variance around that average widened as much as the average itself increased. [Add ISM Manufacturing Report on Business supplier-deliveries index, 2019-2021, here, as the standard measure of this shift; the index reached some of its highest readings on record during this period, indicating widespread and severe delivery slowdowns.]",
+      "The ISM Manufacturing Report on Business supplier-deliveries index and Federal Reserve Beige Book reports can document broad delivery slowdowns and low customer inventories during this period. They do not measure China-to-U.S. ocean lead times in the specific four-to-six-week or three-to-four-month ranges previously stated, so those figures are omitted pending a route- and product-specific source. A composite supplier-deliveries index is a diffusion measure, not a direct transit-time measure.",
       "Unpredictability can affect firms differently from a longer but stable delivery time, but this draft does not establish that it drove the observed firm response. The broad claim that retailers and manufacturers shifted to larger safety stocks or moved from just-in-time to just-in-case requires sector-level inventory evidence and preferably firm-level surveys. Census inventory-to-sales measures can describe inventory levels, but alone do not identify firms' motivations or establish a durable structural change.",
     ],
   },
   {
     heading: "Price Pass-Through and the Inflation Debate",
     paragraphs: [
-      "Freight costs and delivery uncertainty may affect costs and prices, but their contribution to 2021 inflation must be distinguished from demand, fiscal policy, labor-market constraints, and other shocks. A freight-index increase is not itself evidence of a proportional retail-price increase. This draft does not estimate a pass-through lag or quantify a contribution to durable-goods inflation; that requires a defined freight series, BLS price measures, and an identification strategy.",
+      "Freight costs and delivery uncertainty may affect costs and prices, but their contribution to 2021 inflation must be distinguished from demand, fiscal policy, labor-market constraints, and other shocks. Federal Reserve researchers using earnings-call text find that firms facing greater bottlenecks mentioned higher prices more often, while also cautioning that stronger demand was related to both bottlenecks and price mentions. This is suggestive evidence of an association, not an estimate of freight pass-through into BLS consumer prices. This draft does not estimate a pass-through lag or quantify a contribution to durable-goods inflation.",
     ],
   },
   {
@@ -92,6 +92,34 @@ const evidenceNeeds = [
   "Any available data on container repositioning or empty-container return rates, to support the claim about U.S. exporters facing equipment shortages.",
 ];
 
+const verifiedReferences = [
+  {
+    label: "Federal Reserve Board (2021), Monetary Policy Report, July 2021",
+    scope: "Documents more than ten ships waiting at anchor at Los Angeles on average since fall 2020, high import volumes, port/labor constraints, higher inbound rates, and empty-container returns. It does not establish China-only firm behavior.",
+    href: "https://www.federalreserve.gov/monetarypolicy/2021-07-mpr-part1.htm",
+  },
+  {
+    label: "Federal Reserve Board (2022), Monetary Policy Report, February 2022",
+    scope: "Uses port authority, BEA, vessel schedule-reliability, and charter-rate data to describe congestion, late arrivals, container throughput, and shipping costs.",
+    href: "https://www.federalreserve.gov/monetarypolicy/files/20220225_mprfullreport.pdf",
+  },
+  {
+    label: "Federal Reserve Board (2022), Bottlenecks, Shortages, and Soaring Prices in the U.S. Economy",
+    scope: "Connects goods demand, port throughput, delays, higher shipping costs, reduced capacity, and prices as interacting channels; does not attribute all inflation to supply chains.",
+    href: "https://www.federalreserve.gov/econres/notes/feds-notes/bottlenecks-shortages-and-soaring-prices-in-the-us-economy-20220624.html",
+  },
+  {
+    label: "Federal Reserve Board (2021), Effects of Supply Chain Bottlenecks on Prices Using Textual Analysis",
+    scope: "Finds higher price mentions among firms reporting more bottlenecks, while noting that stronger demand is also associated with both; this is suggestive, not a causal consumer-price pass-through estimate.",
+    href: "https://www.federalreserve.gov/econres/notes/feds-notes/effects-of-supply-chain-bottlenecks-on-prices-using-textual-analysis-20211203.html",
+  },
+  {
+    label: "Federal Reserve Bank of New York, Global Supply Chain Pressure Index",
+    scope: "Potential aggregate indicator for global supply-chain pressure; not a China-specific port queue, shipment lead time, or firm inventory measure.",
+    href: "https://www.newyorkfed.org/research/policy/gscpi",
+  },
+];
+
 export default function CovidSupplyChainPaperPage() {
   return (
     <main className="min-h-screen bg-[#070a0d] text-white">
@@ -107,6 +135,18 @@ export default function CovidSupplyChainPaperPage() {
         <aside className="mt-6 rounded-xl border border-amber-200/20 bg-amber-100/[0.04] px-5 py-4 text-sm leading-6 text-white/70" role="note">
           Working research draft. Bracketed notes mark evidence or citations still to be added; statements attached to those notes should not be treated as fully verified. Federal Reserve context: <a className="underline" href="https://www.federalreserve.gov/monetarypolicy/2021-07-mpr-part1.htm" target="_blank" rel="noreferrer">July 2021 Monetary Policy Report</a> and <a className="underline" href="https://www.federalreserve.gov/econres/notes/feds-notes/bottlenecks-shortages-and-soaring-prices-in-the-us-economy-20220624.html" target="_blank" rel="noreferrer">2022 bottlenecks analysis</a>. These support aggregate demand/logistics context, not all China-specific claims below.
         </aside>
+
+        <section className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-6" aria-labelledby="verified-sources-title">
+          <h2 id="verified-sources-title" className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--accent-soft)]">Evidence reviewed and scope</h2>
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            {verifiedReferences.map((source) => (
+              <article key={source.href} className="rounded-xl border border-white/10 p-4">
+                <a className="text-sm font-semibold text-white underline decoration-white/30 underline-offset-4" href={source.href} target="_blank" rel="noreferrer">{source.label}</a>
+                <p className="mt-2 text-sm leading-6 text-white/60">{source.scope}</p>
+              </article>
+            ))}
+          </div>
+        </section>
 
         <div className="mt-10 rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 sm:p-10">
           {paperSections.map((section) => (
