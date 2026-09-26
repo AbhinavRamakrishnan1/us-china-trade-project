@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Economics Project</p>
+        <h1>Stock Market Dashboard</h1>
+        <p class="hero-copy">
+          Track a simple watchlist, daily movement, and a quick market summary in one place.
+        </p>
+      </div>
+      <div class="hero-stat">
+        <span class="label">Market Mood</span>
+        <strong id="marketMood">Steady</strong>
+        <span id="marketDate"></span>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="card highlight">
+        <div class="card-header">
+          <h2>Top Watch</h2>
+          <span class="pill" id="topTicker">AAPL</span>
+        </div>
+        <div class="price-row">
+          <div>
+            <p class="muted">Current Price</p>
+            <h3 id="topPrice">$0.00</h3>
+          </div>
+          <div>
+            <p class="muted">Daily Change</p>
+            <h3 id="topChange">0.00%</h3>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>Watchlist</h2>
+          <span class="pill">Live Demo Data</span>
+        </div>
+        <div id="watchlist" class="watchlist"></div>
+      </section>
+
+      <section class="card">
+        <div class="card-header">
+          <h2>Market Snapshot</h2>
+        </div>
+        <div class="metrics">
+          <div class="metric">
+            <span>S&P 500</span>
+            <strong>5,214.08</strong>
+          </div>
+          <div class="metric">
+            <span>NASDAQ</span>
+            <strong>16,340.21</strong>
+          </div>
+          <div class="metric">
+            <span>DOW</span>
+            <strong>39,482.54</strong>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="80" x2="1470" y2="860" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0E1C33"/>
+      <stop offset="1" stop-color="#040913"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(250 120) rotate(35) scale(540 320)">
+      <stop stop-color="#4F8DFF" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#4F8DFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1270 170) rotate(180) scale(430 280)">
+      <stop stop-color="#76E4FF" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#76E4FF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="panelStroke" x1="190" y1="130" x2="1400" y2="780" gradientUnits="userSpaceOnUse">
+      <stop stop-color="white" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="white" stop-opacity="0.04"/>
+    </linearGradient>
+    <linearGradient id="chip" x1="0" y1="0" x2="136" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7EE3FF"/>
+      <stop offset="1" stop-color="#4F8DFF"/>
+    </linearGradient>
+    <linearGradient id="chartLine" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#7EE3FF"/>
+      <stop offset="1" stop-color="#4F8DFF"/>
+    </linearGradient>
+    <filter id="shadow" x="122" y="84" width="1356" height="732" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="20"/>
+      <feGaussianBlur stdDeviation="28"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.00784314 0 0 0 0 0.0392157 0 0 0 0 0.113725 0 0 0 0.4 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" rx="40" fill="url(#bg)"/>
+  <rect width="1600" height="900" rx="40" fill="url(#glowA)"/>
+  <rect width="1600" height="900" rx="40" fill="url(#glowB)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="150" y="112" width="1300" height="676" rx="34" fill="#0B1628" fill-opacity="0.86"/>
+    <rect x="150.75" y="112.75" width="1298.5" height="674.5" rx="33.25" stroke="url(#panelStroke)" stroke-width="1.5"/>
+
+    <rect x="186" y="146" width="1228" height="94" rx="24" fill="#101E36"/>
+    <rect x="215" y="176" width="126" height="34" rx="17" fill="#18294A"/>
+    <text x="278" y="198" fill="#AFC0DE" font-size="17" font-family="Arial, Helvetica, sans-serif" text-anchor="middle" letter-spacing="2">FINANCE APP</text>
+    <text x="216" y="300" fill="#F0F5FF" font-size="74" font-family="Arial, Helvetica, sans-serif" font-weight="700">MarketLens</text>
+    <text x="216" y="344" fill="#8EA3C7" font-size="27" font-family="Arial, Helvetica, sans-serif">Stock Price Viewer Dashboard</text>
+    <text x="216" y="404" fill="#A7B8D6" font-size="26" font-family="Arial, Helvetica, sans-serif">Track market movers, search tickers, and monitor your watchlist</text>
+    <text x="216" y="440" fill="#A7B8D6" font-size="26" font-family="Arial, Helvetica, sans-serif">inside a polished finance-style interface.</text>
+
+    <rect x="216" y="490" width="184" height="58" rx="18" fill="url(#chip)"/>
+    <text x="308" y="527" fill="#04101E" font-size="24" font-family="Arial, Helvetica, sans-serif" font-weight="700" text-anchor="middle">LIVE DEMO</text>
+
+    <rect x="420" y="490" width="232" height="58" rx="18" fill="#162743" stroke="rgba(255,255,255,0.1)"/>
+    <text x="536" y="527" fill="#E6EEFF" font-size="24" font-family="Arial, Helvetica, sans-serif" font-weight="700" text-anchor="middle">AAPL  +1.51%</text>
+
+    <rect x="216" y="598" width="218" height="118" rx="24" fill="#101E36"/>
+    <text x="244" y="634" fill="#8EA3C7" font-size="19" font-family="Arial, Helvetica, sans-serif">Search Stocks</text>
+    <text x="244" y="684" fill="#F0F5FF" font-size="30" font-family="Arial, Helvetica, sans-serif" font-weight="700">AAPL  MSFT</text>
+    <text x="244" y="715" fill="#F0F5FF" font-size="30" font-family="Arial, Helvetica, sans-serif" font-weight="700">TSLA  NVDA</text>
+
+    <rect x="454" y="598" width="238" height="118" rx="24" fill="#101E36"/>
+    <text x="482" y="634" fill="#8EA3C7" font-size="19" font-family="Arial, Helvetica, sans-serif">Watchlist</text>
+    <text x="482" y="684" fill="#F0F5FF" font-size="30" font-family="Arial, Helvetica, sans-serif" font-weight="700">Save Favorites</text>
+    <text x="482" y="716" fill="#8EA3C7" font-size="20" font-family="Arial, Helvetica, sans-serif">Local storage support</text>
+
+    <rect x="723" y="276" width="654" height="440" rx="30" fill="#101E36"/>
+    <text x="760" y="326" fill="#8EA3C7" font-size="19" font-family="Arial, Helvetica, sans-serif">Market Overview</text>
+
+    <rect x="760" y="352" width="275" height="126" rx="24" fill="#162743"/>
+    <text x="792" y="390" fill="#F0F5FF" font-size="28" font-family="Arial, Helvetica, sans-serif" font-weight="700">AAPL</text>
+    <text x="792" y="425" fill="#8EA3C7" font-size="18" font-family="Arial, Helvetica, sans-serif">Apple Inc.</text>
+    <text x="792" y="462" fill="#8FFFD6" font-size="26" font-family="Arial, Helvetica, sans-serif" font-weight="700">$212.42  +1.51%</text>
+
+    <rect x="1062" y="352" width="275" height="126" rx="24" fill="#162743"/>
+    <text x="1094" y="390" fill="#F0F5FF" font-size="28" font-family="Arial, Helvetica, sans-serif" font-weight="700">NVDA</text>
+    <text x="1094" y="425" fill="#8EA3C7" font-size="18" font-family="Arial, Helvetica, sans-serif">NVIDIA Corp.</text>
+    <text x="1094" y="462" fill="#8FFFD6" font-size="26" font-family="Arial, Helvetica, sans-serif" font-weight="700">$903.56  +2.47%</text>
+
+    <rect x="760" y="504" width="577" height="176" rx="24" fill="#0D1A30"/>
+    <text x="792" y="544" fill="#8EA3C7" font-size="18" font-family="Arial, Helvetica, sans-serif">Intraday Trend</text>
+    <path d="M790 637C840 621 861 604 901 595C940 587 971 548 1013 540C1059 531 1090 563 1125 548C1166 531 1180 468 1223 450C1257 437 1283 445 1320 424" stroke="url(#chartLine)" stroke-width="7" stroke-linecap="round"/>
+    <path d="M790 637C840 621 861 604 901 595C940 587 971 548 1013 540C1059 531 1090 563 1125 548C1166 531 1180 468 1223 450C1257 437 1283 445 1320 424" stroke="#7EE3FF" stroke-opacity="0.25" stroke-width="16" stroke-linecap="round"/>
+    <circle cx="1320" cy="424" r="10" fill="#7EE3FF"/>
+  </g>
+</svg>

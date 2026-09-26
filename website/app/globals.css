@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+:root {
+  --background: #070a0d;
+  --foreground: #f8f2e8;
+  --bg: #070a0d;
+  --ink: #f8f2e8;
+  --accent: #ffb84d;
+  --accent-soft: #f5d29b;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-display: var(--font-display);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+  min-height: 100vh;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+[id] {
+  scroll-margin-top: 96px;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.economy-shell {
+  position: relative;
+  background:
+    radial-gradient(circle at top left, rgba(255, 184, 77, 0.16), transparent 30%),
+    radial-gradient(circle at 85% 20%, rgba(89, 141, 255, 0.12), transparent 28%),
+    linear-gradient(180deg, #070a0d 0%, #091018 46%, #07090c 100%);
+}
+
+.economy-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at var(--pointer-x, 50%) var(--pointer-y, 22%),
+      rgba(255, 184, 77, 0.16),
+      transparent 20%
+    );
+  pointer-events: none;
+}
+
+:root {
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia,
+    serif;
+}
+
+.economy-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55), transparent 92%);
+  pointer-events: none;
+  opacity: 0.32;
+}
+
+.economy-noise {
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 0.7px, transparent 0.7px);
+  background-size: 22px 22px;
+  mix-blend-mode: soft-light;
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+.economy-pointer-glow {
+  position: fixed;
+  left: calc(var(--pointer-x, 50%) - 10rem);
+  top: calc(var(--pointer-y, 22%) - 10rem);
+  width: 20rem;
+  height: 20rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 184, 77, 0.22), transparent 65%);
+  filter: blur(50px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.economy-outline {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0.5;
+}
+
+.economy-panel {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.economy-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.economy-marquee-track {
+  display: inline-block;
+  min-width: 100%;
+  animation: economy-scroll 22s linear infinite;
+}
+
+@keyframes economy-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .economy-marquee-track {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .economy-grid {
+    background-size: 44px 44px;
+  }
+
+  .economy-pointer-glow {
+    width: 12rem;
+    height: 12rem;
+    left: calc(var(--pointer-x, 50%) - 6rem);
+    top: calc(var(--pointer-y, 22%) - 6rem);
+  }
+}

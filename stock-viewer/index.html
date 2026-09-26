@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MarketLens | Stock Price Viewer</title>
+  <meta
+    name="description"
+    content="A polished finance-style stock viewer with watchlists, recent searches, market overview cards, and a sparkline chart."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Portfolio Finance Project</p>
+        <h1>MarketLens</h1>
+        <p class="tagline">A premium stock price viewer for market snapshots, quick ticker lookups, and watchlist tracking.</p>
+      </div>
+      <div class="topbar-panel" aria-label="Application status">
+        <span class="status-pill live">LIVE</span>
+        <p id="apiModeLabel" class="panel-copy">Demo-ready fallback mode enabled</p>
+      </div>
+    </header>
+
+    <main class="dashboard-grid">
+      <section class="panel hero-panel">
+        <div class="hero-copy">
+          <p class="eyebrow">Lookup Any Ticker</p>
+          <h2>Search a company and inspect pricing, change, momentum, and a quick trendline.</h2>
+        </div>
+
+        <form id="searchForm" class="search-form" novalidate>
+          <label class="sr-only" for="tickerInput">Stock ticker</label>
+          <div class="search-input-wrap">
+            <input
+              id="tickerInput"
+              name="ticker"
+              type="text"
+              inputmode="text"
+              autocomplete="off"
+              spellcheck="false"
+              maxlength="10"
+              placeholder="Enter ticker, like AAPL or NVDA"
+              aria-describedby="searchHint"
+            >
+            <button id="searchButton" type="submit" class="btn btn-primary">Search</button>
+          </div>
+          <p id="searchHint" class="search-hint">Press Enter or use a market overview card to load a stock instantly.</p>
+        </form>
+
+        <div id="feedbackBanner" class="feedback-banner" aria-live="polite"></div>
+      </section>
+
+      <section class="panel summary-panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Main Viewer</p>
+            <h2>Stock Snapshot</h2>
+          </div>
+          <div id="trendBadge" class="trend-badge neutral">Waiting</div>
+        </div>
+
+        <div id="stockSummary" class="stock-summary empty">
+          <div class="empty-state">
+            <span class="empty-icon">+</span>
+            <h3>No ticker loaded yet</h3>
+            <p>Search for a stock to see live data or mock demo values, price movement, and a mini trend chart.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel chart-panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Price Trend</p>
+            <h2>Mini Chart</h2>
+          </div>
+          <span id="chartLabel" class="panel-meta">Sparkline unavailable</span>
+        </div>
+
+        <div id="chartCard" class="chart-card empty">
+          <div class="chart-placeholder">
+            <p>Search a ticker to generate a mini price trend using API time-series data or demo fallback points.</p>
+          </div>
+          <svg id="sparkline" viewBox="0 0 600 220" preserveAspectRatio="none" aria-label="Stock price trend chart" role="img">
+            <defs>
+              <linearGradient id="chartFill" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="rgba(93, 152, 255, 0.42)"></stop>
+                <stop offset="100%" stop-color="rgba(93, 152, 255, 0)"></stop>
+              </linearGradient>
+            </defs>
+            <path id="sparklineArea" d=""></path>
+            <path id="sparklinePath" d=""></path>
+          </svg>
+        </div>
+      </section>
+
+      <section class="panel market-panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Tracked Symbols</p>
+            <h2>Market Overview</h2>
+          </div>
+          <button id="refreshMarketButton" type="button" class="btn btn-secondary">Refresh Board</button>
+        </div>
+        <div id="marketOverview" class="market-grid" aria-live="polite"></div>
+      </section>
+
+      <section class="panel watchlist-panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Saved Tickers</p>
+            <h2>Watchlist</h2>
+          </div>
+          <button id="saveFavoriteButton" type="button" class="btn btn-secondary" disabled>Save Current</button>
+        </div>
+        <div id="watchlistContainer" class="list-block" aria-live="polite"></div>
+      </section>
+
+      <section class="panel recent-panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Search History</p>
+            <h2>Recent Searches</h2>
+          </div>
+          <button id="clearRecentButton" type="button" class="btn btn-tertiary">Clear</button>
+        </div>
+        <div id="recentSearchesContainer" class="list-block" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Built by Abhinav Ramakrishnan</p>
+      <p>Frontend-only finance dashboard demo with swap-ready API architecture.</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
