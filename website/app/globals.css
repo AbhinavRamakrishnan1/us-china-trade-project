@@ -1,14 +1,37 @@
 @import "tailwindcss";
 
 :root {
-  --background: #070a0d;
-  --foreground: #f8f2e8;
-  --bg: #070a0d;
-  --ink: #f8f2e8;
-  --accent: #ffb84d;
-  --accent-soft: #f5d29b;
-  --line: rgba(255, 255, 255, 0.1);
-  --line-strong: rgba(255, 255, 255, 0.18);
+  --background: #080e14;
+  --foreground: #edf2f3;
+  --bg: var(--background);
+  --ink: var(--foreground);
+  --panel: #101a22;
+  --panel-raised: #14212b;
+  --text-secondary: #aab8c0;
+  --accent: #8dd8dc;
+  --accent-green: #c4db8b;
+  --accent-amber: #e8bb78;
+  --line: rgba(221, 237, 239, 0.1);
+  --line-strong: rgba(221, 237, 239, 0.18);
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --motion-fast: 160ms;
+  --motion-standard: 220ms;
+  --ease-standard: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --type-meta: 0.6875rem;
+  --type-small: 0.875rem;
+  --type-body: 1rem;
+  --type-section: clamp(2rem, 4vw, 3.25rem);
+  --type-hero: clamp(3.25rem, 7vw, 6.5rem);
   --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
 }
 
@@ -72,11 +95,6 @@ button {
       transparent 20%
     );
   pointer-events: none;
-}
-
-:root {
-  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia,
-    serif;
 }
 
 .economy-grid {

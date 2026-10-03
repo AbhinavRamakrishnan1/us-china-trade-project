@@ -2,10 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties, FormEvent } from "react";
-import { useEffect, useState } from "react";
-
-const introText = "TRADE SHOCK OBSERVATORY by ABHINAV RAMAKRISHNAN";
+import type {
+  CSSProperties,
+  FormEvent,
+  PointerEvent as ReactPointerEvent,
+  TouchEvent as ReactTouchEvent,
+  WheelEvent as ReactWheelEvent,
+} from "react";
+import { useEffect, useRef, useState } from "react";
 
 const windows = [
   {
@@ -83,10 +87,11 @@ const liveFeed = [
   "Recovery restored part of the flow, but did not fully remove structural imbalance.",
 ];
 
-const floatingStats = [
-  { label: "Window", value: "2016-2025" },
-  { label: "Macro analysis", value: "Trade shocks" },
-  { label: "Mode", value: "Research Project" },
+const heroMilestones = [
+  { year: "2018", label: "Tariff escalation", tone: "tariff" },
+  { year: "2020", label: "Supply chain shock", tone: "supply" },
+  { year: "2022", label: "Post-COVID adjustment", tone: "adjustment" },
+  { year: "2025", label: "Trade structure in review", tone: "review" },
 ];
 
 const timelineItems = [
@@ -337,29 +342,24 @@ const getStoredProfile = (): VisitorProfile => {
     return defaultProfile;
   }
 
-  const saved = window.localStorage.getItem("ts-observatory-profile");
-  if (!saved) {
-    return defaultProfile;
-  }
-
   try {
-    return JSON.parse(saved) as VisitorProfile;
+    const saved = window.localStorage.getItem("ts-observatory-profile");
+    return saved ? (JSON.parse(saved) as VisitorProfile) : defaultProfile;
   } catch {
     return defaultProfile;
   }
 };
 
 export default function Page() {
-  const [typedCount, setTypedCount] = useState(0);
   const [stage, setStage] = useState<Stage>("intro");
-  const [pointer, setPointer] = useState({ x: 50, y: 50 });
-  const [feedIndex, setFeedIndex] = useState(0);
   const [customizing, setCustomizing] = useState(false);
   const [sourceDrawerOpen, setSourceDrawerOpen] = useState(false);
   const [assistantOpen, setAssistantOpen] = useState(true);
   const [assistantSection, setAssistantSection] = useState<AssistantSection>("insights");
-  const [profile, setProfile] = useState<VisitorProfile>(getStoredProfile);
-  const [draftProfile, setDraftProfile] = useState<VisitorProfile>(getStoredProfile);
+  const [profile, setProfile] = useState<VisitorProfile>(defaultProfile);
+  const [draftProfile, setDraftProfile] = useState<VisitorProfile>(defaultProfile);
+  const heroPointerFrame = useRef<number | null>(null);
+  const heroTouchStart = useRef<number | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -368,24 +368,10 @@ export default function Page() {
     }
   }, []);
 
-  useEffect(() => {
-    if (typedCount >= introText.length) {
-      return;
+  useEffect(() => () => {
+    if (heroPointerFrame.current !== null) {
+      window.cancelAnimationFrame(heroPointerFrame.current);
     }
-
-    const timeout = window.setTimeout(() => {
-      setTypedCount((count) => count + 1);
-    }, typedCount < 12 ? 60 : 28);
-
-    return () => window.clearTimeout(timeout);
-  }, [typedCount]);
-
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setFeedIndex((current) => (current + 1) % liveFeed.length);
-    }, 2400);
-
-    return () => window.clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -449,48 +435,114 @@ export default function Page() {
   };
 
   const enterCustomization = () => {
+    const storedProfile = getStoredProfile();
+    setProfile(storedProfile);
+    setDraftProfile(storedProfile);
     setStage("customize");
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleHeroPointerMove = (event: ReactPointerEvent<HTMLElement>) => {
+    if (
+      event.pointerType !== "mouse" ||
+      window.innerWidth < 768 ||
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
+    const hero = event.currentTarget;
+    const bounds = hero.getBoundingClientRect();
+    const shiftX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 10;
+    const shiftY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 8;
+    const pointerX = event.clientX - bounds.left;
+    const pointerY = event.clientY - bounds.top;
+
+    if (heroPointerFrame.current !== null) {
+      window.cancelAnimationFrame(heroPointerFrame.current);
+    }
+
+    heroPointerFrame.current = window.requestAnimationFrame(() => {
+      hero.style.setProperty("--hero-shift-x", `${shiftX}px`);
+      hero.style.setProperty("--hero-shift-y", `${shiftY}px`);
+      hero.style.setProperty("--hero-pointer-x", `${pointerX}px`);
+      hero.style.setProperty("--hero-pointer-y", `${pointerY}px`);
+    });
+  };
+
+  const resetHeroPointer = (event: ReactPointerEvent<HTMLElement>) => {
+    if (heroPointerFrame.current !== null) {
+      window.cancelAnimationFrame(heroPointerFrame.current);
+      heroPointerFrame.current = null;
+    }
+
+    event.currentTarget.style.setProperty("--hero-shift-x", "0px");
+    event.currentTarget.style.setProperty("--hero-shift-y", "0px");
+    event.currentTarget.style.setProperty("--hero-pointer-x", "65%");
+    event.currentTarget.style.setProperty("--hero-pointer-y", "45%");
+  };
+
+  const handleHeroWheel = (event: ReactWheelEvent<HTMLElement>) => {
+    if (event.deltaY > 18) {
+      enterSiteDirectly();
+    }
+  };
+
+  const handleHeroTouchStart = (event: ReactTouchEvent<HTMLElement>) => {
+    heroTouchStart.current = event.changedTouches[0]?.clientY ?? null;
+  };
+
+  const handleHeroTouchEnd = (event: ReactTouchEvent<HTMLElement>) => {
+    const touchEnd = event.changedTouches[0]?.clientY;
+    if (
+      heroTouchStart.current !== null &&
+      touchEnd !== undefined &&
+      heroTouchStart.current - touchEnd > 56
+    ) {
+      enterSiteDirectly();
+    }
+    heroTouchStart.current = null;
   };
 
   const stagePanelStyle = (isVisible: boolean, background: string): CSSProperties => ({
     ...stagePanelBaseStyle,
     background,
     opacity: isVisible ? 1 : 0,
-    transform: isVisible ? "scale(1)" : "scale(1.02)",
+    transform: isVisible ? "translateY(0)" : "translateY(-14px)",
     visibility: isVisible ? "visible" : "hidden",
     pointerEvents: isVisible ? "auto" : "none",
   });
 
   return (
-    <main
-      className="page"
-      style={
-        {
-          "--pointer-x": `${pointer.x}%`,
-          "--pointer-y": `${pointer.y}%`,
-        } as CSSProperties
-      }
-      onMouseMove={(event) => {
-        setPointer({
-          x: (event.clientX / window.innerWidth) * 100,
-          y: (event.clientY / window.innerHeight) * 100,
-        });
-      }}
-    >
-      <div className="cursorGlow" aria-hidden="true" />
+    <main className="page">
 
       <section
         className={`intro stagePanel ${stage !== "intro" ? "panelHidden" : ""}`}
+        onPointerMove={handleHeroPointerMove}
+        onPointerLeave={resetHeroPointer}
+        onWheel={handleHeroWheel}
+        onTouchStart={handleHeroTouchStart}
+        onTouchEnd={handleHeroTouchEnd}
         style={stagePanelStyle(
           stage === "intro",
-          "linear-gradient(180deg, #0d1220 0%, #0a1627 55%, #09111d 100%)",
+          "radial-gradient(ellipse at 72% 42%, rgba(32, 90, 110, 0.22), transparent 38%), linear-gradient(135deg, #07111d 0%, #0a1724 54%, #09111b 100%)",
         )}
       >
-        <div className="introAura introAuraA" aria-hidden="true" />
-        <div className="introAura introAuraB" aria-hidden="true" />
-        <div className="introGrid" aria-hidden="true" />
-        <div className={`introWipe ${stage !== "intro" ? "introWipeActive" : ""}`} aria-hidden="true" />
+        <div className="heroAtmosphere" aria-hidden="true" />
+        <div className="heroGrid" aria-hidden="true" />
+        <svg className="heroFlowMap" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <path id="hero-flow-one" className="heroFlowLine heroFlowLineOne" d="M-80 650 C 180 540, 265 715, 480 590 S 790 420, 1000 520 S 1270 600, 1510 340" />
+          <path className="heroFlowArrival" d="M-80 650 C 180 540, 265 715, 480 590 S 790 420, 1000 520 S 1270 600, 1510 340" />
+          <path id="hero-flow-two" className="heroFlowLine heroFlowLineTwo" d="M-60 735 C 185 610, 300 780, 520 650 S 790 510, 1015 575 S 1270 655, 1510 435" />
+          <path id="hero-flow-three" className="heroFlowLine heroFlowLineThree" d="M80 350 C 320 460, 450 300, 650 405 S 940 570, 1120 440 S 1320 300, 1510 390" />
+          <circle className="heroFlowPoint heroFlowPointOne" cx="480" cy="590" r="3" />
+          <circle className="heroFlowPoint heroFlowPointTwo" cx="1000" cy="520" r="3" />
+          <circle className="heroFlowPoint heroFlowPointThree" cx="1120" cy="440" r="3" />
+          <circle className="heroFlowSignal heroFlowSignalCyan" r="4"><animateMotion dur="13s" begin="0s" repeatCount="indefinite"><mpath href="#hero-flow-one" /></animateMotion></circle>
+          <circle className="heroFlowSignal heroFlowSignalCyan heroFlowSignalSmall" r="3"><animateMotion dur="19s" begin="-7s" repeatCount="indefinite"><mpath href="#hero-flow-three" /></animateMotion></circle>
+          <circle className="heroFlowSignal heroFlowSignalAmber" r="3.5"><animateMotion dur="17s" begin="-5s" repeatCount="indefinite"><mpath href="#hero-flow-two" /></animateMotion></circle>
+        </svg>
 
         <div
           className="shell introInner"
@@ -498,50 +550,109 @@ export default function Page() {
             position: "relative",
             zIndex: 1,
             display: "flex",
-            width: "min(1580px, calc(100% - var(--intro-shell-gutter, 72px)))",
+            width: "min(1500px, calc(100% - var(--intro-shell-gutter, 96px)))",
             minHeight: "100vh",
             margin: "0 auto",
-            paddingBlock: 48,
+            paddingBlock: "var(--hero-shell-padding, 28px)",
             flexDirection: "column",
-            alignItems: "flex-start",
             justifyContent: "center",
           }}
         >
-          <p className="kicker">Trade Shock Observatory</p>
-          <p className="typing">
-            {introText.slice(0, typedCount)}
-            <span className="caret" aria-hidden="true" />
-          </p>
-
-          <div className="floatingStatRow">
-            {floatingStats.map((stat, index) => (
-              <div
-                key={stat.label}
-                className="floatingStat"
-                style={{ "--float-delay": `${index * 180}ms` } as CSSProperties}
-              >
-                <span>{stat.label}</span>
-                <strong>{stat.value}</strong>
-              </div>
-            ))}
+          <div className="heroTopline">
+            <Link href="/" className="heroWordmark">Trade Shock Observatory</Link>
+            <span>Independent economic research</span>
           </div>
 
-          <h1 className="heroTitle">
-            ECONOMIC
-            <br />
-            RESEARCH
-            <br />
-            PLATFORM
-          </h1>
+          <div className="heroLayout">
+            <div className="heroCopy">
+              <p className="heroEyebrow"><span /> U.S. — CHINA / TRADE &amp; MACRO</p>
+              <h1 className="heroTitle">
+                <span className="heroTitleLine">
+                  <span>THE U.S.–<span className="heroMobileBreak">CHINA</span></span>
+                </span>
+                <span className="heroTitleLine heroTitleLineAccent">
+                  <span>TRADE<span className="heroMobileBreak">PROJECT</span></span>
+                </span>
+              </h1>
+              <p className="heroSubtitle">Tariffs, supply chains, trade imbalances, and recovery from 2016–2025.</p>
+              <p className="heroQuestion">How did these shocks reshape the economic relationship between the United States and China?</p>
 
-          <p className="heroText">
-            What happens when the two largest economies on earth stop trusting each
-            other? This project tracks the answer in the data, month by month, from
-            2016 to 2025.
-          </p>
+              <div className="heroActions">
+                <button type="button" className="enterButton" onClick={enterSiteDirectly}>
+                  Explore the research <span aria-hidden="true">↗</span>
+                </button>
+                <Link className="heroDataLink" href="/data">View data <span aria-hidden="true">↗</span></Link>
+              </div>
+              <button type="button" className="heroPersonalize" onClick={enterCustomization}>
+                Personalize your reading view
+              </button>
+            </div>
 
-          <button type="button" className="enterButton" onClick={enterCustomization}>
-            Enter Platform
+            <aside className="heroChronology" aria-label="Research timeline, 2016 to 2025">
+              <div className="heroChronologyHead">
+                <span>RESEARCH WINDOWS</span>
+                <strong>2016 <i /> 2025</strong>
+              </div>
+              <div className="heroChronologyBody">
+                <figure className="heroGlobe" aria-label="A rotating globe highlighting the United States and China">
+                  <svg viewBox="0 0 260 260" aria-hidden="true">
+                    <defs>
+                      <radialGradient id="globe-ocean" cx="36%" cy="30%" r="74%">
+                        <stop offset="0%" stopColor="#20424b" />
+                        <stop offset="68%" stopColor="#10252f" />
+                        <stop offset="100%" stopColor="#091720" />
+                      </radialGradient>
+                      <clipPath id="globe-clip"><circle cx="130" cy="130" r="105" /></clipPath>
+                    </defs>
+                    <circle className="globeOcean" cx="130" cy="130" r="105" fill="url(#globe-ocean)" />
+                    <g clipPath="url(#globe-clip)">
+                      <ellipse className="globeLatitude" cx="130" cy="130" rx="105" ry="36" />
+                      <ellipse className="globeLatitude globeLatitudeWide" cx="130" cy="130" rx="105" ry="72" />
+                      <ellipse className="globeMeridian globeMeridianOne" cx="130" cy="130" rx="38" ry="105" />
+                      <ellipse className="globeMeridian globeMeridianTwo" cx="130" cy="130" rx="76" ry="105" />
+                      <path className="globeLand" d="M38 82 54 68 75 72 84 82 101 85 110 98 102 109 90 110 86 122 73 127 68 145 56 140 50 124 39 116 34 99Z" />
+                      <path className="globeLand" d="m146 80 16-11 22 5 10 10 20 5 12 13-8 11-19 2-8 13-18 1-8-11-18-5-8-14Z" />
+                      <path className="globeLand" d="m194 119 17-7 17 9-2 13-13 8-17-5-9-9Z" />
+                      <path className="globeLand" d="m90 150 15 7 7 19-7 17-10 19-9-13-2-18-8-16Z" />
+                      <path className="globeUs" d="m55 91 21-8 18 5 8 11-7 10-14 2-5 11-14-4-8-11Z" />
+                      <path className="globeChina" d="m174 91 16-5 16 8 8 10-8 10-15 1-8 8-13-7-7-12Z" />
+                      <path className="globeTradeArc" d="M79 105 Q128 54 190 103" />
+                      <circle className="globeMarker globeMarkerUs" cx="79" cy="105" r="4" />
+                      <circle className="globeMarker globeMarkerChina" cx="190" cy="103" r="4" />
+                    </g>
+                    <circle className="globeRim" cx="130" cy="130" r="105" />
+                    <ellipse className="globeOrbit" cx="130" cy="130" rx="120" ry="42" />
+                    <circle className="globeOrbitPoint" r="3.5">
+                      <animateMotion dur="11s" repeatCount="indefinite" path="M 10,130 A 120,42 0 1,1 250,130 A 120,42 0 1,1 10,130" />
+                    </circle>
+                  </svg>
+                  <figcaption><span>United States</span><i aria-hidden="true" /> <span>China</span></figcaption>
+                </figure>
+                <div className="heroTimeline">
+                  <span className="heroTimelineTrack" aria-hidden="true" />
+                  <span className="heroTimelineSignal" aria-hidden="true" />
+                  {heroMilestones.map((milestone, index) => (
+                    <div className={`heroMilestone heroMilestone-${milestone.tone}`} key={milestone.year} style={{ "--milestone-index": index } as CSSProperties}>
+                      <span className="heroMilestoneDot" aria-hidden="true" />
+                      <div>
+                        <strong>{milestone.year}</strong>
+                        <span>{milestone.label}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <p className="heroTimelineNote">Four linked studies tracing a changing trade relationship.</p>
+            </aside>
+          </div>
+
+          <button
+            type="button"
+            className="heroScrollCue"
+            onClick={enterSiteDirectly}
+            aria-controls="insights"
+          >
+            <span aria-hidden="true" /> Scroll to enter the observatory
           </button>
         </div>
       </section>
@@ -767,11 +878,6 @@ export default function Page() {
               "Trade deficit persistence",
               "Recovery asymmetry",
               "Volatility clustering",
-              "Tariff escalation",
-              "Supply bottlenecks",
-              "Trade deficit persistence",
-              "Recovery asymmetry",
-              "Volatility clustering",
             ].map((item, index) => (
               <span key={`${item}-${index}`}>{item}</span>
             ))}
@@ -831,7 +937,7 @@ export default function Page() {
 
           <div className="liveStrip revealCard" style={{ "--delay": "320ms" } as CSSProperties}>
             <p className="kicker">Live Feed</p>
-            <div className="liveMessage">{liveFeed[feedIndex]}</div>
+            <div className="liveMessage">{liveFeed[0]}</div>
           </div>
         </section>
 
@@ -938,9 +1044,9 @@ export default function Page() {
         </section>
 
         <section id="projects" className="shell section projectsSection">
-          <div className="sectionHead">
+          <div className="sectionHead projectsIntro">
             <p className="kicker">2016-2025 Research Projects</p>
-            <h2>Four studies that turn the timeline into a clear research structure.</h2>
+            <h2>Four connected studies. One changing trade relationship.</h2>
             <p>
               The project is organized around four connected research questions. Each
               card represents one part of the larger argument about how U.S.-China trade
@@ -957,13 +1063,13 @@ export default function Page() {
                 className="projectCard revealCard"
                 style={{ "--delay": `${index * 120}ms` } as CSSProperties}
               >
-                <div className="projectTopline">
-                  <p className="kicker">{project.years}</p>
-                  <span>0{index + 1}</span>
+                <span className="projectNumber">0{index + 1}</span>
+                <span className="projectYears">{project.years}</span>
+                <div className="projectCopy">
+                  <h3>{project.title}</h3>
+                  <p>{project.description}</p>
                 </div>
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-                <strong>{project.status}</strong>
+                <span className="projectAction">{project.status}<i aria-hidden="true">â†—</i></span>
               </Link>
             ))}
           </div>
@@ -1134,19 +1240,6 @@ export default function Page() {
           color: #ecf4ff;
         }
 
-        .cursorGlow {
-          position: fixed;
-          left: calc(var(--pointer-x) - 10rem);
-          top: calc(var(--pointer-y) - 10rem);
-          width: 20rem;
-          height: 20rem;
-          border-radius: 999px;
-          background: radial-gradient(circle, rgba(111, 255, 233, 0.1), transparent 65%);
-          filter: blur(48px);
-          pointer-events: none;
-          z-index: 0;
-        }
-
         .shell {
           width: min(1580px, calc(100% - 72px));
           margin: 0 auto;
@@ -1162,16 +1255,31 @@ export default function Page() {
 
         .panelHidden {
           opacity: 0;
-          transform: scale(1.02);
           visibility: hidden;
           pointer-events: none;
         }
 
+        .panelHidden .heroGrid,
+        .panelHidden .heroFlowLine,
+        .panelHidden .heroFlowSignal,
+        .panelHidden .heroFlowArrival,
+        .panelHidden .heroTimelineSignal,
+        .panelHidden .globeMeridian,
+        .panelHidden .globeOrbit,
+        .panelHidden .heroAtmosphere::before { animation-play-state: paused; }
+
+        .panelHidden .heroFlowMap { opacity: 0.12; }
+        .panelHidden .heroGlobe animateMotion { display: none; }
+
         .intro {
-          background: linear-gradient(180deg, #0d1220 0%, #0a1627 55%, #09111d 100%);
+          --hero-shift-x: 0px;
+          --hero-shift-y: 0px;
+          --hero-pointer-x: 65%;
+          --hero-pointer-y: 45%;
+          isolation: isolate;
+          background: #08131e;
         }
 
-        .introAura,
         .customizeAura {
           position: absolute;
           border-radius: 999px;
@@ -1179,44 +1287,104 @@ export default function Page() {
           opacity: 0.3;
         }
 
-        .introAuraA {
-          width: 24rem;
-          height: 24rem;
-          top: 8%;
-          left: -8rem;
-          background: rgba(111, 255, 233, 0.22);
-        }
-
-        .introAuraB {
-          width: 28rem;
-          height: 28rem;
-          right: -8rem;
-          bottom: 6%;
-          background: rgba(194, 255, 93, 0.16);
-        }
-
-        .introGrid {
+        .heroAtmosphere {
           position: absolute;
           inset: 0;
+          z-index: -2;
+          background:
+            radial-gradient(circle 24rem at var(--hero-pointer-x) var(--hero-pointer-y), rgba(102, 193, 201, 0.075), transparent 72%),
+            radial-gradient(ellipse at 76% 38%, rgba(68, 164, 180, 0.13), transparent 36%),
+            radial-gradient(ellipse at 18% 78%, rgba(255, 184, 77, 0.055), transparent 34%);
+          transition: background-position 500ms ease;
+          pointer-events: none;
+        }
+
+        .heroAtmosphere::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse 46rem 30rem at 52% 48%, rgba(86, 163, 173, 0.16), transparent 72%);
+          opacity: 0;
+          animation: heroOpeningBloom 1600ms 120ms both cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .heroGrid {
+          position: absolute;
+          inset: 0;
+          z-index: -2;
           background-image:
-            linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-          background-size: 74px 74px;
-          opacity: 0.16;
-          mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.72), transparent 92%);
+            linear-gradient(rgba(201, 225, 231, 0.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(201, 225, 231, 0.035) 1px, transparent 1px);
+          background-size: 68px 68px;
+          background-position: 0 0, 0 0;
+          mask-image: linear-gradient(90deg, transparent, black 45%, black 100%);
+          transform: translate3d(calc(var(--hero-shift-x) * 0.3), calc(var(--hero-shift-y) * 0.3), 0);
+          animation: heroGridDrift 32s linear infinite;
+          transition: transform 400ms ease-out;
+          pointer-events: none;
         }
 
-        .introWipe {
+        .heroFlowMap {
           position: absolute;
           inset: 0;
-          background: linear-gradient(180deg, #c1ff63, #66ebff);
-          transform: translateY(100%);
-          transition: transform 780ms cubic-bezier(0.22, 1, 0.36, 1);
+          z-index: -1;
+          width: 100%;
+          height: 100%;
+          overflow: visible;
+          transform: translate3d(var(--hero-shift-x), var(--hero-shift-y), 0);
+          transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1), opacity 500ms ease;
+          pointer-events: none;
+          opacity: 0.84;
         }
 
-        .introWipeActive {
-          transform: translateY(0);
+        .heroFlowLine {
+          fill: none;
+          stroke: rgba(131, 202, 207, 0.31);
+          stroke-width: 1.2;
+          stroke-dasharray: 5 18;
+          animation: flowDrift 24s linear infinite;
         }
+
+        .heroFlowLineTwo {
+          stroke: rgba(255, 196, 116, 0.19);
+          stroke-dasharray: 2 17;
+          animation-duration: 31s;
+          animation-direction: reverse;
+        }
+
+        .heroFlowLineThree {
+          stroke: rgba(167, 199, 173, 0.15);
+          stroke-dasharray: 1 20;
+          animation-duration: 38s;
+        }
+
+        .heroFlowArrival {
+          fill: none;
+          stroke: rgba(195, 239, 232, 0.74);
+          stroke-width: 1.5;
+          stroke-linecap: round;
+          stroke-dasharray: 280 1800;
+          stroke-dashoffset: 1800;
+          animation: flowArrival 2200ms 140ms both cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .heroFlowSignal {
+          opacity: 0;
+          animation: signalAppear 13s ease-in-out infinite;
+        }
+
+        .heroFlowSignalCyan { fill: #a5e8e5; filter: drop-shadow(0 0 5px rgba(141, 243, 255, 0.55)); }
+        .heroFlowSignalAmber { fill: #f0c98f; filter: drop-shadow(0 0 5px rgba(237, 189, 121, 0.42)); animation-delay: -5s; animation-duration: 17s; }
+        .heroFlowSignalSmall { animation-duration: 19s; animation-delay: -7s; }
+
+        .heroFlowPoint {
+          fill: #aee5df;
+          filter: drop-shadow(0 0 8px rgba(141, 243, 255, 0.65));
+          animation: pointBreathe 3.8s ease-in-out infinite alternate;
+        }
+
+        .heroFlowPointTwo { animation-delay: 1s; fill: #ffca80; }
+        .heroFlowPointThree { animation-delay: 2s; }
 
         .introInner,
         .customizeShell {
@@ -1229,8 +1397,378 @@ export default function Page() {
         }
 
         .introInner {
-          padding-block: 48px;
-          align-items: flex-start;
+          padding-block: 38px;
+          justify-content: space-between;
+          isolation: isolate;
+        }
+
+        .heroTopline {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 24px;
+          padding-bottom: 18px;
+          border-bottom: 1px solid rgba(231, 242, 240, 0.12);
+          color: rgba(224, 237, 237, 0.54);
+          font-size: 0.72rem;
+          font-weight: 700;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          animation: heroLift 600ms both cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .heroWordmark {
+          color: #e9f2f2;
+          text-decoration: none;
+        }
+
+        .heroLayout {
+          display: grid;
+          grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+          align-items: center;
+          gap: clamp(40px, 4.5vw, 84px);
+          padding: clamp(28px, 5.5vh, 64px) 0 30px;
+        }
+
+        .heroCopy {
+          max-width: 980px;
+        }
+
+        .heroEyebrow {
+          display: flex;
+          align-items: center;
+          gap: 11px;
+          margin: 0 0 22px;
+          color: #a9d6d3;
+          font-size: 0.74rem;
+          font-weight: 800;
+          letter-spacing: 0.24em;
+          text-transform: uppercase;
+          animation: heroLift 600ms 80ms both cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .heroEyebrow > span {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #ffbf69;
+          box-shadow: 0 0 14px rgba(255, 191, 105, 0.6);
+        }
+
+        .heroTitle {
+          display: grid;
+          margin: 0;
+          color: #f0f1e9;
+          font-family: var(--font-display), Georgia, serif;
+          font-size: clamp(4.5rem, 9vw, 8.5rem);
+          font-weight: 400;
+          line-height: 0.91;
+          letter-spacing: -0.075em;
+          text-wrap: balance;
+        }
+
+        .heroTitleLine {
+          display: block;
+          overflow: hidden;
+          padding: 0.04em 0 0.11em 0.025em;
+        }
+
+        .heroTitleLine > span {
+          display: block;
+          transform: translateY(112%);
+          animation: titleUnmask 1050ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .heroTitleLine:nth-child(2) > span { animation-delay: 190ms; }
+
+        .heroTitleLineAccent {
+          color: #a7d5d0;
+        }
+
+        .heroMobileBreak::before { content: " "; }
+
+        .heroSubtitle {
+          max-width: 610px;
+          margin: 22px 0 0;
+          color: #e2e7e2;
+          font-size: clamp(1.0625rem, 1.25vw, 1.1875rem);
+          line-height: 1.65;
+          animation: heroLift 700ms 340ms both cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .heroQuestion {
+          max-width: 650px;
+          margin: 12px 0 0;
+          color: #aebdc0;
+          font-size: clamp(1rem, 1.12vw, 1.0625rem);
+          line-height: 1.7;
+          animation: heroLift 700ms 430ms both cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .heroActions {
+          display: flex;
+          align-items: center;
+          gap: 28px;
+          flex-wrap: wrap;
+          margin-top: 29px;
+          animation: heroLift 700ms 560ms both cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .heroPersonalize {
+          display: block;
+          margin: 16px 0 0;
+          padding: 4px 0;
+          border: 0;
+          background: transparent;
+          color: rgba(207, 222, 220, 0.58);
+          font: inherit;
+          font-size: 0.72rem;
+          text-decoration: underline;
+          text-decoration-color: rgba(207, 222, 220, 0.25);
+          text-underline-offset: 4px;
+          cursor: pointer;
+          animation: heroLift 700ms 580ms both cubic-bezier(0.2, 0.75, 0.25, 1);
+        }
+
+        .heroPersonalize:hover,
+        .heroPersonalize:focus-visible { color: #eef4ee; }
+
+        .heroDataLink {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          min-height: 48px;
+          color: #d1e4e2;
+          font-size: 0.75rem;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          text-decoration: none;
+          text-transform: uppercase;
+          transition: color 180ms ease, gap 180ms ease;
+        }
+
+        .heroDataLink:hover,
+        .heroDataLink:focus-visible { color: #ffca80; gap: 12px; }
+
+        .heroChronology {
+          position: relative;
+          display: grid;
+          grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+          column-gap: 24px;
+          width: 100%;
+          max-width: 700px;
+          padding: 38px 40px 30px;
+          border: 1px solid rgba(208, 231, 227, 0.14);
+          border-radius: 18px;
+          background: linear-gradient(145deg, rgba(229, 246, 242, 0.055), rgba(9, 23, 32, 0.18));
+          box-shadow: 0 22px 70px rgba(0, 0, 0, 0.14);
+          backdrop-filter: blur(8px);
+          animation: heroCardArrival 950ms 720ms both cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .heroChronologyHead,
+        .heroChronologyBody,
+        .heroTimelineNote { grid-column: 1 / -1; }
+
+        .heroChronologyHead {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 14px;
+          padding-bottom: 18px;
+          border-bottom: 1px solid rgba(231, 242, 240, 0.1);
+          color: #9eb5b7;
+          font-size: 0.76rem;
+          font-weight: 800;
+          letter-spacing: 0.16em;
+        }
+
+        .heroChronologyHead strong {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          color: #e5eeea;
+          font-size: 0.82rem;
+          letter-spacing: 0.05em;
+        }
+
+        .heroChronologyHead i {
+          display: inline-block;
+          width: 44px;
+          height: 1px;
+          background: linear-gradient(90deg, #70bdc0, #edbd79);
+          transform-origin: left;
+          animation: timelineDraw 900ms 1600ms both cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .heroTimeline {
+          position: relative;
+          display: grid;
+          gap: 0;
+          padding: 11px 0 4px;
+        }
+
+        .heroChronologyBody {
+          display: grid;
+          grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+          gap: 30px;
+          align-items: center;
+        }
+
+        .heroGlobe {
+          width: 100%;
+          max-width: 290px;
+          margin: 0 auto;
+          animation: heroGlobeArrival 900ms 1080ms both cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .heroGlobe svg { display: block; width: 100%; overflow: visible; }
+        .globeOcean { stroke: rgba(171, 221, 218, 0.42); stroke-width: 1; }
+        .globeLatitude,
+        .globeMeridian { fill: none; stroke: rgba(173, 215, 213, 0.19); stroke-width: 0.8; }
+        .globeLatitudeWide { stroke-dasharray: 2 5; }
+        .globeMeridian { transform-box: fill-box; transform-origin: center; }
+        .globeMeridianOne { animation: globeMeridianTurn 7s ease-in-out infinite alternate; }
+        .globeMeridianTwo { animation: globeMeridianTurn 9s 1s ease-in-out infinite alternate-reverse; }
+        .globeLand { fill: rgba(142, 177, 168, 0.42); stroke: rgba(199, 223, 210, 0.42); stroke-width: 0.7; }
+        .globeUs { fill: rgba(109, 202, 203, 0.6); stroke: #a4e3df; stroke-width: 1.2; }
+        .globeChina { fill: rgba(229, 184, 113, 0.62); stroke: #f0c98f; stroke-width: 1.2; }
+        .globeTradeArc { fill: none; stroke: rgba(187, 226, 218, 0.72); stroke-width: 1; stroke-dasharray: 3 4; }
+        .globeMarker { fill: #d7f5ee; stroke: rgba(255, 255, 255, 0.75); stroke-width: 1; }
+        .globeMarkerChina { fill: #f0c98f; }
+        .globeRim { fill: none; stroke: rgba(187, 225, 221, 0.5); stroke-width: 1; }
+        .globeOrbit { fill: none; stroke: rgba(141, 216, 220, 0.36); stroke-width: 0.8; stroke-dasharray: 2 6; transform-origin: center; animation: globeOrbitTurn 18s linear infinite; }
+        .globeOrbitPoint { fill: #a5e8e5; filter: drop-shadow(0 0 4px rgba(141, 243, 255, 0.6)); }
+
+        .heroGlobe figcaption {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 7px;
+          margin-top: 4px;
+          color: #b5cac7;
+          font-size: 0.61rem;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+
+        .heroGlobe figcaption i { width: 16px; border-top: 1px dashed rgba(187, 226, 218, 0.62); }
+
+        .heroTimelineTrack {
+          position: absolute;
+          top: 26px;
+          bottom: 24px;
+          left: 5px;
+          width: 1px;
+          background: rgba(156, 206, 202, 0.2);
+          transform: scaleY(0);
+          transform-origin: top;
+          animation: timelineDrawVertical 800ms 1600ms forwards cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .heroTimelineSignal {
+          position: absolute;
+          z-index: 2;
+          top: 10%;
+          left: 3px;
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: #a5e8e5;
+          box-shadow: 0 0 7px rgba(141, 243, 255, 0.5);
+          opacity: 0;
+          animation: timelineSignalVertical 8.5s 2.1s linear infinite;
+        }
+
+        .heroMilestone {
+          position: relative;
+          display: grid;
+          grid-template-columns: 12px 1fr;
+          gap: 14px;
+          align-items: start;
+          padding: 20px 0;
+          color: #e5eeea;
+          opacity: 0;
+          animation: heroLift 560ms calc(1840ms + var(--milestone-index) * 130ms) forwards cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .heroMilestoneDot {
+          position: relative;
+          z-index: 1;
+          width: 11px;
+          height: 11px;
+          margin-top: 4px;
+          border: 2px solid #91c7c3;
+          border-radius: 50%;
+          background: #0a1721;
+          box-shadow: 0 0 0 4px rgba(145, 199, 195, 0.07);
+        }
+
+        .heroMilestone-tariff .heroMilestoneDot { border-color: #edbd79; }
+        .heroMilestone-supply .heroMilestoneDot { border-color: #83c8cd; }
+        .heroMilestone-adjustment .heroMilestoneDot { border-color: #a5d6b3; }
+        .heroMilestone-review .heroMilestoneDot { border-color: #d1d5be; }
+
+        .heroMilestone > div {
+          display: flex;
+          justify-content: space-between;
+          gap: 12px;
+          align-items: baseline;
+        }
+
+        .heroMilestone strong {
+          color: #f0c98f;
+          font-size: 0.96rem;
+          letter-spacing: 0.1em;
+        }
+
+        .heroMilestone > div > span {
+          color: #b8c9c8;
+          font-size: 0.92rem;
+          text-align: right;
+        }
+
+        .heroTimelineNote {
+          margin: 10px 0 0;
+          padding-top: 14px;
+          border-top: 1px solid rgba(231, 242, 240, 0.1);
+          color: #83999b;
+          font-size: 0.8rem;
+          line-height: 1.6;
+        }
+
+        .heroScrollCue {
+          display: inline-flex;
+          align-items: center;
+          gap: 11px;
+          align-self: flex-start;
+          padding: 10px 0 4px;
+          border: 0;
+          background: transparent;
+          color: rgba(200, 219, 216, 0.55);
+          font: inherit;
+          font-size: 0.62rem;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          cursor: pointer;
+        }
+
+        .heroScrollCue > span {
+          width: 20px;
+          height: 1px;
+          background: #edbd79;
+          transform-origin: left;
+          animation: scrollCueDraw 3.8s 1.4s ease-in-out infinite;
+        }
+
+        .heroScrollCue:hover,
+        .heroScrollCue:focus-visible { color: #eef4ee; }
+
+        .customizeShell {
+          padding: 48px 0;
         }
 
         .customize {
@@ -1365,92 +1903,33 @@ export default function Page() {
           outline: none;
         }
 
-        .floatingStatRow {
-          display: flex;
-          gap: 18px;
-          flex-wrap: wrap;
-          margin-top: 22px;
-          max-width: 1000px;
-        }
-
-        .floatingStat {
-          min-width: 164px;
-          padding: 15px 17px;
-          border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          background: rgba(255, 255, 255, 0.04);
-          backdrop-filter: blur(12px);
-          animation: floatCard 5.2s ease-in-out infinite;
-          animation-delay: var(--float-delay);
-        }
-
-        .floatingStat span {
-          display: block;
-          margin-bottom: 8px;
-          color: #8df3ff;
-          font-size: 10px;
-          text-transform: uppercase;
-          letter-spacing: 0.22em;
-        }
-
-        .floatingStat strong {
-          font-size: 1.08rem;
-          color: #f4f8ff;
-        }
-
-        .kicker {
-          margin: 0;
-          color: #8df3ff;
-          font-size: 11px;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.28em;
-        }
-
-        .typing {
+        .enterButton {
           display: inline-flex;
           align-items: center;
-          gap: 10px;
-          min-height: 42px;
-          margin: 20px 0 0;
-          color: #f4f8ff;
-          font-size: clamp(0.98rem, 1.85vw, 1.32rem);
-          font-weight: 600;
-          letter-spacing: 0.03em;
-        }
-
-        .caret {
-          width: 12px;
-          height: 1.1em;
-          background: #d4ff62;
-          animation: blink 0.95s steps(1) infinite;
-        }
-
-        .heroTitle {
-          margin: 24px 0 0;
-          max-width: 10ch;
-          font-size: clamp(4.6rem, 15.4vw, 11.6rem);
-          line-height: 0.84;
-          letter-spacing: -0.066em;
-        }
-
-        .heroText {
-          max-width: 840px;
-          margin: 24px 0 0;
-          color: #c7d3e7;
-          font-size: 1.05rem;
-          line-height: 1.82;
-        }
-
-        .enterButton {
-          margin-top: 32px;
+          justify-content: center;
+          gap: 16px;
+          margin: 0;
           width: fit-content;
-          border: 1px solid rgba(141, 243, 255, 0.3);
-          background: rgba(141, 243, 255, 0.08);
-          font-size: 12px;
-          letter-spacing: 0.22em;
-          min-height: 52px;
-          padding: 0 22px;
+          min-height: 56px;
+          padding: 0 24px;
+          border: 1px solid rgba(191, 222, 213, 0.35);
+          background: rgba(171, 218, 205, 0.1);
+          color: #eef5ee;
+          font-size: 0.76rem;
+          letter-spacing: 0.11em;
+          cursor: pointer;
+        }
+
+        .heroActions .enterButton:hover,
+        .heroActions .enterButton:focus-visible {
+          transform: translateY(-2px);
+          border-color: rgba(237, 189, 121, 0.65);
+          background: rgba(171, 218, 205, 0.16);
+        }
+
+        .heroActions .enterButton > span {
+          color: #edbd79;
+          font-size: 1rem;
         }
 
         .choiceButton:hover,
@@ -1506,14 +1985,33 @@ export default function Page() {
 
         .nav {
           display: flex;
-          gap: 22px;
+          align-items: center;
+          gap: 4px;
         }
 
         .navLink {
           display: inline-flex;
-          min-height: 40px;
+          min-height: 36px;
           align-items: center;
+          padding: 0 9px;
+          border-radius: var(--radius-sm);
+          color: var(--text-secondary);
+          font-size: 0.75rem;
+          font-weight: 650;
+          letter-spacing: 0.045em;
           white-space: nowrap;
+          transition: color var(--motion-fast) var(--ease-standard), background var(--motion-fast) var(--ease-standard);
+        }
+
+        .navLink:hover,
+        .navLink:focus-visible {
+          color: var(--foreground);
+          background: rgba(221, 237, 239, 0.07);
+        }
+
+        .navLink:focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 2px;
         }
 
         .chartSourceNote {
@@ -1713,7 +2211,6 @@ export default function Page() {
           border-radius: 999px;
           background: radial-gradient(circle, #c1ff63 0%, #66ebff 42%, transparent 72%);
           box-shadow: 0 0 28px rgba(102, 235, 255, 0.32);
-          animation: assistantPulse 1.8s ease-in-out infinite;
         }
 
         .assistantHeader h2 {
@@ -1758,23 +2255,21 @@ export default function Page() {
         }
 
         .siteTicker {
-          overflow: hidden;
-          white-space: nowrap;
+          overflow: visible;
           border-top: 1px solid rgba(255, 255, 255, 0.08);
           border-bottom: 1px solid rgba(255, 255, 255, 0.08);
           background: rgba(255, 255, 255, 0.03);
         }
 
         .siteTickerTrack {
-          display: inline-block;
-          min-width: 100%;
-          padding: 12px 0;
-          animation: tickerMove 20s linear infinite;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px 30px;
+          padding: 14px max(36px, calc((100vw - 1480px) / 2));
         }
 
         .siteTickerTrack span {
           display: inline-block;
-          margin-right: 30px;
           color: #b7d8f1;
           font-size: 10px;
           text-transform: uppercase;
@@ -1802,7 +2297,9 @@ export default function Page() {
         }
 
         .sectionHead h2 {
-          font-size: clamp(2.5rem, 5vw, 4.3rem);
+          font-size: var(--type-section);
+          font-weight: 500;
+          line-height: 1.08;
         }
 
         .sectionHead p:last-child,
@@ -1841,11 +2338,11 @@ export default function Page() {
         .toolkitGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .toolkitCard {
           display: flex; min-height: 235px; flex-direction: column; align-items: flex-start;
-          padding: 26px; border: 1px solid rgba(255,255,255,.09); border-radius: 24px;
-          background: linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
-          color: inherit; text-decoration: none; transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+          padding: var(--space-6); border: 1px solid var(--line); border-radius: var(--radius-lg);
+          background: rgba(255,255,255,.025);
+          color: inherit; text-decoration: none; transition: transform var(--motion-standard) var(--ease-standard), border-color var(--motion-standard) var(--ease-standard), background var(--motion-standard) var(--ease-standard);
         }
-        .toolkitCard:hover, .toolkitCard:focus-visible { transform: translateY(-3px); border-color: rgba(141,243,255,.38); background: rgba(141,243,255,.07); }
+        .toolkitCard:hover, .toolkitCard:focus-visible { transform: translateY(-2px); border-color: var(--line-strong); background: rgba(255,255,255,.045); }
         .toolkitCard h3 { margin: 18px 0 10px; font-size: clamp(1.4rem, 2vw, 2rem); }
         .toolkitCard > p:not(.kicker) { margin: 0; color: #b6c3d4; line-height: 1.7; }
         .toolkitCard strong { margin-top: auto; padding-top: 22px; color: #8df3ff; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; }
@@ -1861,10 +2358,10 @@ export default function Page() {
         .liveStrip,
         .timelineRail,
         .miniChartCard {
-          border-radius: 28px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          background: rgba(255, 255, 255, 0.045);
-          box-shadow: 0 18px 34px rgba(0, 0, 0, 0.16);
+          border-radius: var(--radius-lg);
+          border: 1px solid var(--line);
+          background: rgba(255, 255, 255, 0.035);
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
         }
 
         .windowCard,
@@ -1876,7 +2373,7 @@ export default function Page() {
         .microCard,
         .timelineRail,
         .miniChartCard {
-          padding: 28px;
+          padding: var(--space-6);
         }
 
         .revealCard {
@@ -1969,8 +2466,8 @@ export default function Page() {
         .sideWidgets {
           display: grid;
           grid-template-columns: 0.34fr 0.66fr;
-          gap: 18px;
-          margin-bottom: 18px;
+          gap: clamp(24px, 3vw, 44px);
+          margin-bottom: clamp(34px, 5vw, 64px);
         }
 
         .timelineRail {
@@ -2012,8 +2509,8 @@ export default function Page() {
         .timelineScroll {
           position: relative;
           min-height: 0;
-          margin-top: 8px;
-          padding: 10px 8px 10px 0;
+          margin-top: 14px;
+          padding: 14px 10px 14px 0;
           overflow-y: auto;
           scrollbar-color: rgba(141, 243, 255, 0.3) transparent;
           scrollbar-width: thin;
@@ -2041,8 +2538,8 @@ export default function Page() {
           position: relative;
           display: grid;
           grid-template-columns: 18px 1fr;
-          gap: 12px;
-          padding: 12px 10px 12px 2px;
+          gap: 14px;
+          padding: 17px 12px 17px 2px;
           border-radius: 16px;
           color: inherit;
           text-decoration: none;
@@ -2336,86 +2833,206 @@ export default function Page() {
           border-color: rgba(193, 255, 99, 0.28);
         }
 
-        .projectsSection {
-          padding-top: 92px;
+        .projectsSection { padding-top: clamp(88px, 10vw, 144px); }
+
+        .projectsIntro {
+          display: grid;
+          grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+          column-gap: clamp(28px, 6vw, 88px);
+          align-items: end;
+          margin-bottom: clamp(42px, 5vw, 68px);
+        }
+
+        .projectsIntro .kicker { grid-column: 1 / -1; }
+        .projectsIntro h2 {
+          max-width: 15ch;
+          margin: 10px 0 0;
+          font-size: clamp(2.5rem, 5vw, 4.5rem);
+          font-weight: 500;
+          line-height: 1.02;
+        }
+        .projectsIntro > p:last-child {
+          max-width: 58ch;
+          margin: 0;
+          color: #adbdc5;
+          font-size: 1rem;
+          line-height: 1.8;
         }
 
         .projectGrid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+          display: grid;
+          grid-template-columns: 1fr;
+          border-top: 1px solid rgba(221, 237, 239, 0.16);
         }
 
         .projectCard {
-          position: relative;
-          min-height: 280px;
-          overflow: hidden;
+          display: grid;
+          grid-template-columns: 72px 144px minmax(0, 1fr) 136px;
+          align-items: center;
+          gap: clamp(26px, 3vw, 44px);
+          min-height: 176px;
+          padding: 22px 18px;
+          border: 0;
+          border-bottom: 1px solid rgba(221, 237, 239, 0.14);
+          border-radius: 0;
+          background: transparent;
+          box-shadow: none;
           color: inherit;
           text-decoration: none;
-          transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
-        }
-
-        .projectCard::before {
-          content: "";
-          position: absolute;
-          inset: auto -20% -45% 35%;
-          height: 14rem;
-          border-radius: 999px;
-          background: radial-gradient(circle, rgba(102, 235, 255, 0.18), transparent 66%);
-          opacity: 0;
-          transition: opacity 220ms ease, transform 220ms ease;
+          transition: background 180ms ease, padding 180ms ease;
         }
 
         .projectCard:hover,
         .projectCard:focus-visible {
-          transform: translateY(-6px);
-          border-color: rgba(193, 255, 99, 0.32);
-          background: rgba(255, 255, 255, 0.065);
+          padding-inline: 24px 12px;
+          border-color: rgba(221, 237, 239, 0.2);
+          background: rgba(208, 231, 227, 0.045);
+          transform: none;
         }
 
-        .projectCard:hover::before,
-        .projectCard:focus-visible::before {
-          opacity: 1;
-          transform: translateY(-20px);
+        .projectNumber {
+          color: #a8d9d6;
+          font-family: var(--font-display), Georgia, serif;
+          font-size: 2.35rem;
+          line-height: 1;
         }
 
-        .projectTopline {
-          display: flex;
+        .projectYears {
+          color: #aab8c0;
+          font-size: 0.8rem;
+          font-weight: 700;
+          letter-spacing: 0.11em;
+          text-transform: uppercase;
+        }
+
+        .projectCopy { min-width: 0; }
+        .projectCard h3 {
+          margin: 0 0 7px;
+          color: #eff3ed;
+          font-size: clamp(1.35rem, 2vw, 1.8rem);
+          font-weight: 500;
+          line-height: 1.15;
+        }
+        .projectCard p {
+          max-width: 75ch;
+          margin: 0;
+          color: #adbdc5;
+          font-size: 0.95rem;
+          line-height: 1.75;
+        }
+
+        .projectAction {
+          display: inline-flex;
           align-items: center;
           justify-content: space-between;
-          gap: 16px;
-          position: relative;
-          z-index: 1;
+          gap: 12px;
+          color: #c6dfdb;
+          font-size: 0.78rem;
+          font-weight: 700;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          white-space: nowrap;
         }
-
-        .projectTopline span {
-          color: rgba(193, 255, 99, 0.9);
-          font-size: 0.9rem;
-          font-weight: 900;
-          letter-spacing: 0.18em;
+        .projectAction i {
+          color: #e8bb78;
+          font-size: 1rem;
+          font-style: normal;
+          transition: transform 180ms ease;
         }
-
-        .projectCard h3,
-        .projectCard p,
-        .projectCard strong {
-          position: relative;
-          z-index: 1;
-        }
-
-        .projectCard h3 {
-          max-width: 12ch;
-        }
-
-        .projectCard strong {
-          font-size: 11px;
-        }
+        .projectCard:hover .projectAction i,
+        .projectCard:focus-visible .projectAction i { transform: translate(2px, -2px); }
 
         .chartShell {
           margin-top: 18px;
         }
 
-        @keyframes blink {
-          50% {
-            opacity: 0;
-          }
+        @keyframes titleUnmask {
+          from { opacity: 0.25; transform: translateY(112%); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes heroOpeningBloom {
+          0% { opacity: 0; transform: scale(0.82); }
+          48% { opacity: 0.9; }
+          100% { opacity: 0.28; transform: scale(1.08); }
+        }
+
+        @keyframes heroCardArrival {
+          from { opacity: 0; transform: translateY(22px) scale(0.97); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes heroGlobeArrival {
+          from { opacity: 0; transform: translateY(12px) scale(0.9); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes globeMeridianTurn {
+          from { transform: scaleX(1); }
+          to { transform: scaleX(0.2); }
+        }
+
+        @keyframes globeOrbitTurn {
+          to { transform: rotate(360deg); }
+        }
+
+        @keyframes heroLift {
+          from { opacity: 0; transform: translateY(12px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes timelineDraw {
+          from { transform: scaleX(0); }
+          to { transform: scaleX(1); }
+        }
+
+        @keyframes timelineDrawVertical {
+          from { transform: scaleY(0); }
+          to { transform: scaleY(1); }
+        }
+
+        @keyframes flowDrift {
+          to { stroke-dashoffset: -160; }
+        }
+
+        @keyframes flowArrival {
+          0% { opacity: 0; stroke-dashoffset: 1800; }
+          14% { opacity: 0.9; }
+          78% { opacity: 0.75; }
+          100% { opacity: 0; stroke-dashoffset: 0; }
+        }
+
+        @keyframes heroGridDrift {
+          to { background-position: 10px 8px, 10px 8px; }
+        }
+
+        @keyframes signalAppear {
+          0%, 8%, 84%, 100% { opacity: 0; }
+          18%, 70% { opacity: 0.9; }
+        }
+
+        @keyframes timelineSignalVertical {
+          0% { top: 10%; opacity: 0; }
+          8% { opacity: 0.9; }
+          90% { opacity: 0.9; }
+          100% { top: 90%; opacity: 0; }
+        }
+
+        @keyframes timelineSignalHorizontal {
+          0% { left: 8px; opacity: 0; }
+          8% { opacity: 0.9; }
+          90% { opacity: 0.9; }
+          100% { left: calc(100% - 8px); opacity: 0; }
+        }
+
+        @keyframes scrollCueDraw {
+          0%, 100% { transform: scaleX(0.65); }
+          48%, 64% { transform: scaleX(1.35); }
+        }
+
+        @keyframes pointBreathe {
+          from { opacity: 0.42; transform: scale(0.82); }
+          to { opacity: 0.92; transform: scale(1.18); }
         }
 
         @keyframes riseIn {
@@ -2425,41 +3042,10 @@ export default function Page() {
           }
         }
 
-        @keyframes tickerMove {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(-50%);
-          }
-        }
-
-        @keyframes floatCard {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-8px);
-          }
-        }
-
         @keyframes sourceCardIn {
           to {
             opacity: 1;
             transform: translateX(0);
-          }
-        }
-
-        @keyframes assistantPulse {
-          0%,
-          100% {
-            transform: scale(1);
-            opacity: 0.9;
-          }
-          50% {
-            transform: scale(1.08);
-            opacity: 1;
           }
         }
 
@@ -2472,13 +3058,72 @@ export default function Page() {
           .contactFooter,
           .sideWidgets,
           .projectGrid,
+          .projectsIntro,
           .toolkitGrid {
             grid-template-columns: 1fr;
           }
 
+          .projectsIntro { row-gap: 12px; }
+          .projectsIntro .kicker { grid-column: 1; }
+          .projectsIntro > p:last-child { margin-top: 4px; }
+
           .topbarInner {
             flex-direction: column;
             align-items: flex-start;
+          }
+
+          .heroLayout {
+            grid-template-columns: 1fr;
+            gap: 28px;
+            padding: clamp(30px, 5vh, 52px) 0 24px;
+          }
+
+          .heroChronology {
+            max-width: none;
+          }
+
+          .projectCard {
+            grid-template-columns: 54px 120px minmax(0, 1fr) 112px;
+            gap: 16px;
+            min-height: 154px;
+          }
+
+          .heroFlowArrival { display: none; }
+
+          .heroTimeline {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            padding-top: 18px;
+          }
+
+          .heroTimelineTrack {
+            top: 24px;
+            right: 8px;
+            bottom: auto;
+            left: 8px;
+            width: auto;
+            height: 1px;
+            transform: scaleX(0);
+            transform-origin: left;
+            animation-name: timelineDraw;
+          }
+
+          .heroMilestone {
+            grid-template-columns: 12px 1fr;
+            gap: 8px;
+            align-items: start;
+            padding: 10px 2px;
+          }
+
+          .heroMilestone > div {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 5px;
+          }
+
+          .heroMilestone > div > span {
+            min-height: 2.4em;
+            text-align: left;
           }
 
           .nav {
@@ -2507,29 +3152,161 @@ export default function Page() {
           }
         }
 
+        @media (min-width: 641px) and (max-width: 980px) {
+          .heroFlowSignalSmall,
+          .heroFlowSignalAmber { display: none; }
+
+          .heroTimelineSignal {
+            top: 21px;
+            left: 8px;
+            animation-name: timelineSignalHorizontal;
+          }
+        }
+
+        @media (min-width: 981px) and (max-width: 1280px) {
+          .heroTitle { font-size: clamp(4rem, 8.5vw, 7rem); }
+        }
+
+        @media (min-width: 1121px) and (max-height: 940px) {
+          .introInner { --hero-shell-padding: 18px; }
+          .heroLayout { padding: clamp(18px, 3vh, 26px) 0 16px; }
+          .heroTitle { font-size: clamp(4.25rem, 7vw, 7rem); }
+          .heroTitleLine { padding-block: 0.02em 0.07em; }
+          .heroChronology { padding: 24px 28px 18px; }
+          .heroMilestone { padding-block: 13px; }
+          .heroActions { margin-top: 22px; }
+          .heroPersonalize { margin-top: 10px; }
+        }
+
         @media (max-width: 640px) {
           .introInner {
-            --intro-shell-gutter: 28px;
+            --intro-shell-gutter: 32px;
+            --hero-shell-padding: 20px;
           }
 
-          .shell {
-            width: min(100% - 28px, 1580px);
+          .heroTopline { padding-bottom: 12px; }
+          .heroTopline > span { display: none; }
+
+          .heroLayout {
+            gap: 22px;
+            padding: 26px 0 18px;
+          }
+
+          .heroEyebrow {
+            margin-bottom: 15px;
+            font-size: 0.57rem;
+            letter-spacing: 0.16em;
           }
 
           .heroTitle {
-            font-size: 4rem;
-            max-width: 8ch;
+            font-size: clamp(2.25rem, 10.6vw, 3.55rem);
+            line-height: 0.96;
+            letter-spacing: -0.07em;
           }
 
-          .heroText {
-            font-size: 1rem;
+          .heroMobileBreak {
+            display: block;
+          }
+
+          .heroMobileBreak::before { content: none; }
+
+          .heroSubtitle {
+            margin-top: 16px;
+            font-size: 0.96rem;
+          }
+
+          .heroQuestion {
+            margin-top: 9px;
+            font-size: 0.84rem;
+            line-height: 1.6;
+          }
+
+          .heroActions {
+            gap: 18px;
+            margin-top: 20px;
+          }
+
+          .heroActions .enterButton {
+            min-height: 48px;
+            padding: 0 17px;
+            font-size: 0.63rem;
+            letter-spacing: 0.1em;
+          }
+
+          .heroDataLink { font-size: 0.67rem; }
+          .heroPersonalize { margin-top: 10px; font-size: 0.68rem; }
+
+          .heroChronology {
+            padding: 13px 14px 11px;
+            border-radius: 14px;
+          }
+
+          .heroChronologyBody {
+            grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+            gap: 12px;
+          }
+
+          .heroGlobe { max-width: 132px; }
+          .heroGlobe figcaption { gap: 4px; font-size: 0.52rem; letter-spacing: 0.035em; }
+          .heroGlobe figcaption i { width: 10px; }
+
+          .heroChronologyHead {
+            padding-bottom: 10px;
+            font-size: 0.58rem;
+          }
+
+          .heroChronologyHead i { width: 22px; }
+
+          .heroTimeline { grid-template-columns: 1fr; gap: 0; padding: 7px 0 0; }
+
+          .heroTimelineTrack,
+          .heroTimelineSignal { display: none; }
+
+          .heroMilestone {
+            grid-template-columns: 9px 1fr;
+            gap: 7px;
+            padding: 8px 0;
+          }
+
+          .heroMilestoneDot {
+            width: 8px;
+            height: 8px;
+            margin-top: 4px;
+            border-width: 1px;
+          }
+
+          .heroMilestone strong { font-size: 0.67rem; }
+          .heroMilestone > div > span { min-height: 0; font-size: 0.61rem; }
+          .heroMilestone > div { align-items: baseline; flex-direction: row; justify-content: space-between; }
+          .heroMilestone > div > span { text-align: right; }
+          .heroTimelineNote { margin-top: 6px; padding-top: 9px; font-size: 0.59rem; }
+          .heroScrollCue { font-size: 0.56rem; }
+          .heroFlowMap { opacity: 0.38; }
+          .heroFlowSignalAmber,
+          .heroFlowSignalSmall { display: none; }
+          .heroFlowArrival { display: none; }
+
+          .projectCard {
+            grid-template-columns: 42px minmax(0, 1fr);
+            gap: 8px 14px;
+            min-height: 0;
+            padding: 20px 8px;
+          }
+          .projectCard:hover,
+          .projectCard:focus-visible { padding-inline: 12px 4px; }
+          .projectNumber { grid-column: 1; grid-row: 1; font-size: 1.8rem; }
+          .projectYears { grid-column: 2; grid-row: 1; }
+          .projectCopy { grid-column: 1 / -1; }
+          .projectAction { grid-column: 1 / -1; justify-self: start; }
+
+          .shell {
+            width: min(100% - 28px, 1580px);
           }
 
           .section {
             padding-top: 56px;
           }
 
-          .floatingStatRow,
           .glossaryRow {
             flex-direction: column;
           }
@@ -2552,6 +3329,17 @@ export default function Page() {
         @media (prefers-reduced-motion: reduce) {
           *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
           .revealCard { opacity: 1; transform: none; }
+          .heroTitleLine > span { opacity: 1; transform: none; animation: none; }
+          .heroMilestone { opacity: 1; transform: none; animation: none; }
+          .heroFlowLine, .heroFlowPoint, .heroChronologyHead i, .heroScrollCue > span { animation: none; }
+          .heroFlowArrival { animation: none; opacity: 0; }
+          .heroTimelineTrack { transform: none; animation: none; }
+          .heroTimelineSignal, .heroFlowSignal { display: none; }
+          .heroFlowMap animateMotion { display: none; }
+          .heroGlobe animateMotion { display: none; }
+          .heroGrid { animation: none; transform: none; }
+          .heroAtmosphere::before { animation: none; opacity: 0.28; transform: none; }
+          .heroFlowMap { transform: none; }
         }
       `}</style>
     </main>

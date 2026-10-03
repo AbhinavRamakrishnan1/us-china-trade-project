@@ -12,7 +12,28 @@ export default function GlossaryPage() {
       <footer className="glossary-footer"><Link href="/">← Back to the observatory</Link><Link href="/data">Review data and sources →</Link></footer>
     </div>
     <style>{`
-      .glossary-page{min-height:100vh;background:radial-gradient(ellipse at 15% 5%,rgba(141,243,255,.09),transparent 30%),#08111b;color:#eff6ff}.glossary-topbar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;padding:18px max(24px,calc((100vw - 1040px)/2));border-bottom:1px solid rgba(255,255,255,.09);background:rgba(8,17,27,.88);backdrop-filter:blur(14px);font-size:.75rem;letter-spacing:.08em}.glossary-topbar a,.glossary-footer a{color:inherit;text-decoration:none}.glossary-content{width:min(1040px,calc(100% - 40px));margin:0 auto;padding:78px 0 56px}.glossary-kicker{color:#8df3ff;font-size:.68rem;font-weight:800;letter-spacing:.23em;text-transform:uppercase}.glossary-content h1{margin:20px 0;font-family:var(--font-display);font-size:clamp(3.8rem,10vw,7.6rem);line-height:.88;letter-spacing:-.06em}.glossary-content h1 span{color:#8df3ff}.glossary-intro{max-width:680px;color:#b8c5d5;font-size:1.05rem;line-height:1.8}.glossary-controls{position:sticky;top:60px;z-index:3;margin:38px 0 18px;padding:20px;border:1px solid rgba(255,255,255,.1);border-radius:20px;background:rgba(9,18,29,.96);backdrop-filter:blur(12px)}.glossary-search{display:grid;gap:8px;color:#91a4b8;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}.glossary-search input{width:100%;min-height:48px;padding:0 14px;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:#0e1a28;color:#eff6ff;font:inherit;letter-spacing:normal;text-transform:none}.glossary-categories{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.glossary-categories button{min-height:36px;padding:0 12px;border:1px solid rgba(255,255,255,.13);border-radius:999px;background:transparent;color:#b8c5d5;font:inherit;font-size:.75rem}.glossary-categories button[aria-pressed=true]{border-color:#8df3ff;background:rgba(141,243,255,.12);color:#e8fdff}.glossary-count{margin:14px 0 0;color:#91a4b8;font-size:.75rem}.glossary-list{display:grid;gap:10px}.glossary-entry{display:grid;grid-template-columns:.7fr 1.6fr auto;align-items:center;gap:18px;padding:20px 22px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.035)}.glossary-entry span{color:#8df3ff;font-size:.63rem;letter-spacing:.15em;text-transform:uppercase}.glossary-entry h2{margin:6px 0 0;font-size:1.05rem}.glossary-entry p{margin:0;color:#b8c5d5;font-size:.9rem;line-height:1.65}.glossary-entry a{color:#8df3ff;font-size:.72rem;white-space:nowrap;text-decoration:none}.glossary-entry a:hover{text-decoration:underline}.glossary-empty{padding:36px 0;color:#b8c5d5}.glossary-footer{display:flex;justify-content:space-between;gap:16px;margin-top:30px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);font-size:.84rem}@media(max-width:720px){.glossary-content{padding-top:54px}.glossary-controls{top:58px}.glossary-entry{grid-template-columns:1fr;gap:8px}.glossary-footer{flex-direction:column}}
+      .glossary-page{min-height:100vh;background:var(--background);color:var(--foreground)}
+      .glossary-topbar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;gap:16px;padding:16px max(24px,calc((100vw - 1120px)/2));border-bottom:1px solid var(--line);background:rgba(8,14,20,.94);font-size:.78rem;letter-spacing:.02em}
+      .glossary-topbar a,.glossary-footer a{color:inherit;text-decoration:none;transition:color var(--motion-fast) var(--ease-standard)}
+      .glossary-topbar a:hover,.glossary-footer a:hover{color:var(--accent)}
+      .glossary-content{width:min(1120px,calc(100% - 40px));margin:0 auto;padding:72px 0 56px}
+      .glossary-kicker{color:var(--accent);font-size:var(--type-meta);font-weight:700;letter-spacing:.14em}
+      .glossary-content h1{font-size:clamp(3.25rem,8vw,6.5rem);font-weight:500;line-height:.94;letter-spacing:-.05em}
+      .glossary-content h1 span{color:var(--accent)}
+      .glossary-intro{color:var(--text-secondary);font-size:1.05rem;line-height:1.75}
+      .glossary-controls{border-color:var(--line);border-radius:var(--radius-lg);background:var(--panel)}
+      .glossary-search{color:var(--text-secondary);font-size:.78rem;letter-spacing:.08em}
+      .glossary-search input{min-height:44px;border-color:var(--line-strong);border-radius:var(--radius-sm);background:var(--panel-raised);color:var(--foreground)}
+      .glossary-categories button{border-color:var(--line-strong);border-radius:var(--radius-sm);color:var(--text-secondary);transition:color var(--motion-fast) var(--ease-standard),border-color var(--motion-fast) var(--ease-standard),background var(--motion-fast) var(--ease-standard)}
+      .glossary-categories button[aria-pressed=true]{border-color:var(--accent);background:rgba(141,216,220,.1);color:var(--foreground)}
+      .glossary-entry{padding:18px 20px;border-color:var(--line);border-radius:var(--radius-md);background:rgba(255,255,255,.025)}
+      .glossary-entry span{color:var(--accent);font-size:var(--type-meta);letter-spacing:.1em}
+      .glossary-entry h2{font-size:1rem;font-weight:600}
+      .glossary-entry p{color:var(--text-secondary);font-size:.9rem;line-height:1.7}
+      .glossary-entry a{color:var(--accent);font-size:.78rem}
+      .glossary-empty{color:var(--text-secondary)}
+      .glossary-footer{border-color:var(--line)}
+      @media(max-width:720px){.glossary-content{padding-top:54px}.glossary-controls{top:58px}.glossary-entry{grid-template-columns:1fr;gap:8px}.glossary-footer{flex-direction:column}}
     `}</style>
   </main>;
 }
