@@ -50,7 +50,7 @@ const sourceLinks = [
 
 export default function PostCovidRecoveryPatternPaperPage() {
   return (
-    <main className="min-h-screen bg-[#070a0d] text-white">
+    <main className="observatory-page min-h-screen bg-[#070a0d] text-white">
       <section className="mx-auto max-w-4xl px-6 py-16">
         <p className="text-[11px] uppercase tracking-[0.38em] text-[var(--accent-soft)]">
           Full Paper // Case File 04

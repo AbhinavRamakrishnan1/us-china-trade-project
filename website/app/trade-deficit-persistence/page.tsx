@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BalanceExplainer from "./BalanceExplainer";
 
 const findings = [
   {
@@ -20,7 +21,7 @@ const findings = [
 
 export default function TradeDeficitPersistencePage() {
   return (
-    <main className="min-h-screen bg-[#06080b] text-white">
+    <main className="observatory-page min-h-screen bg-[#06080b] text-white">
       <header className="sticky top-0 z-50 border-b border-white/10 bg-[rgba(6,8,11,0.86)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
           <Link
@@ -94,6 +95,10 @@ export default function TradeDeficitPersistencePage() {
             <p className="mt-4 text-base leading-7 text-white/64">{finding.text}</p>
           </article>
         ))}
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 py-8">
+        <BalanceExplainer />
       </section>
 
       <nav aria-label="Case file navigation" className="mx-auto flex max-w-6xl flex-wrap justify-between gap-4 px-6 pb-20">

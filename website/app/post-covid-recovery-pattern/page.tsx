@@ -20,7 +20,7 @@ const findings = [
 
 export default function PostCovidRecoveryPatternPage() {
   return (
-    <main className="min-h-screen bg-[#06080b] text-white">
+    <main className="observatory-page min-h-screen bg-[#06080b] text-white">
       <header className="sticky top-0 z-50 border-b border-white/10 bg-[rgba(6,8,11,0.86)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
           <Link

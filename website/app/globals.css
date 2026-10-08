@@ -84,6 +84,503 @@ button {
     linear-gradient(180deg, #070a0d 0%, #091018 46%, #07090c 100%);
 }
 
+/* Shared observatory treatment for the case files and paper routes. */
+.observatory-page {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background:
+    radial-gradient(ellipse at 86% 8%, rgba(75, 159, 169, 0.16), transparent 34%),
+    radial-gradient(ellipse at 4% 48%, rgba(232, 187, 120, 0.07), transparent 30%),
+    linear-gradient(180deg, #09131d 0%, #0b1720 54%, #08121a 100%);
+  color: var(--foreground);
+}
+
+.observatory-page::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(185, 223, 225, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(185, 223, 225, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  content: "";
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, #000 0%, transparent 90%);
+}
+
+.observatory-page > header {
+  border-color: var(--line) !important;
+  background: rgba(8, 18, 26, 0.82) !important;
+}
+
+.observatory-page > section {
+  position: relative;
+}
+
+.observatory-page h1,
+.observatory-page h2 {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+.observatory-page h1 {
+  text-wrap: balance;
+}
+
+.observatory-page h2 {
+  text-wrap: pretty;
+}
+
+.observatory-page article,
+.observatory-page > section > div[class*="rounded-"] {
+  border-color: rgba(185, 223, 225, 0.14) !important;
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.12);
+}
+
+.observatory-page a {
+  text-underline-offset: 4px;
+}
+
+.observatory-page a:focus-visible {
+  outline-color: var(--accent);
+}
+
+.tradeLens,
+.supplyModel,
+.balanceExplainer,
+.evidenceBoundary {
+  border: 1px solid rgba(185, 223, 225, 0.15);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, rgba(20, 43, 52, 0.82), rgba(9, 22, 30, 0.92));
+  box-shadow: 0 22px 62px rgba(0, 0, 0, 0.16);
+}
+
+.tradeLens {
+  min-width: 0;
+  padding: clamp(22px, 2.8vw, 38px);
+}
+
+.tradeLensHeader,
+.tradeLensControls,
+.tradeLensBody,
+.evidenceBoundaryHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.tradeLensHeader .kicker,
+.modelKicker {
+  margin: 0;
+  color: var(--accent);
+  font-size: var(--type-meta);
+  font-weight: 750;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.tradeLensHeader h3,
+.supplyModel h2,
+.balanceExplainer h2,
+.evidenceBoundary h3 {
+  margin: 13px 0 10px;
+  color: var(--foreground);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.tradeLensHeader > div > p:last-child,
+.supplyModelIntro > p:last-child,
+.balanceExplainerHeader > p:last-child {
+  max-width: 64ch;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.tradeLensStatus {
+  flex: 0 0 auto;
+  max-width: 180px;
+  margin: 0;
+  color: #9eb6b8;
+  font-size: 0.68rem;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.tradeLensControls {
+  align-items: center;
+  margin: 24px 0 10px;
+}
+
+.measureTabs,
+.balanceExplainerTabs,
+.evidenceBoundaryToggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.measureTabs button,
+.balanceExplainerTabs button,
+.evidenceBoundaryToggle button {
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid rgba(185, 223, 225, 0.14);
+  border-radius: 6px;
+  background: rgba(6, 18, 26, 0.5);
+  color: #b7c7c8;
+  font: inherit;
+  font-size: 0.76rem;
+  cursor: pointer;
+  transition: border-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), background var(--motion-fast) var(--ease-standard);
+}
+
+.measureTabs button[aria-pressed="true"],
+.balanceExplainerTabs button[aria-pressed="true"],
+.evidenceBoundaryToggle button[aria-pressed="true"] {
+  border-color: rgba(141, 216, 220, 0.52);
+  background: rgba(141, 216, 220, 0.1);
+  color: #ecf5f2;
+}
+
+.yearScrubber {
+  display: grid;
+  flex: 1;
+  gap: 6px;
+  max-width: 360px;
+  color: #9eb6b8;
+  font-size: 0.66rem;
+}
+
+.yearScrubber > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.yearScrubber strong {
+  color: var(--accent-amber);
+  font-size: 0.95rem;
+}
+
+.yearScrubber input {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: ew-resize;
+}
+
+.tradeLensBody {
+  align-items: stretch;
+  gap: 18px;
+}
+
+.tradeLensChart {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(185, 223, 225, 0.1);
+  border-radius: 10px;
+  background: rgba(5, 15, 22, 0.44);
+}
+
+.tradeLensChart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 170px;
+}
+
+.tradeLensGrid {
+  stroke: rgba(185, 223, 225, 0.1);
+  stroke-width: 1;
+}
+
+.tradeLensLine {
+  fill: none;
+  stroke: var(--accent-amber);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tradeLensLine-exports { stroke: var(--accent); }
+.tradeLensLine-balance { stroke: var(--accent-green); }
+
+.tradeLensPoint circle { fill: #789296; transition: r var(--motion-fast) var(--ease-standard), fill var(--motion-fast) var(--ease-standard); }
+.tradeLensPoint.isSelected circle { fill: #f1c27e; stroke: #0b1720; stroke-width: 3; }
+.tradeLensLine-exports ~ .tradeLensPoint.isSelected circle { fill: var(--accent); }
+.tradeLensMarker { stroke: rgba(232, 187, 120, 0.45); stroke-dasharray: 3 5; }
+.tradeLensPoint text { fill: #879da0; font-size: 13px; }
+.tradeLensPoint.isSelected text { fill: #e8efeb; font-weight: 700; }
+
+.tradeLensReadout {
+  display: flex;
+  flex: 0 0 170px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  padding: 18px;
+  border-left: 1px solid rgba(185, 223, 225, 0.14);
+}
+
+.tradeLensSelectedYear,
+.tradeLensMeasureLabel,
+.tradeLensReadout small {
+  color: #9eb6b8;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+}
+
+.tradeLensReadout > strong {
+  color: #edf3ec;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.tradeLensReadout > p {
+  margin: 4px 0 0;
+  color: var(--accent-amber);
+  font-size: 0.8rem;
+}
+
+.tradeLensCaveat,
+.tradeLensEmpty {
+  margin: 14px 0 0;
+  color: #94a9ab;
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.supplyModel,
+.balanceExplainer {
+  padding: clamp(24px, 4vw, 46px);
+}
+
+.supplyModelIntro,
+.balanceExplainerHeader {
+  max-width: 780px;
+}
+
+.supplyModelChain {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  margin: 30px 0 16px;
+}
+
+.supplyModelNodeWrap {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+
+.supplyModelNode {
+  display: grid;
+  flex: 1;
+  min-height: 86px;
+  align-content: center;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid rgba(185, 223, 225, 0.14);
+  border-radius: 8px;
+  background: rgba(5, 18, 25, 0.42);
+  color: #d9e5e1;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 650;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--motion-fast) var(--ease-standard), background var(--motion-fast) var(--ease-standard);
+}
+
+.supplyModelNode > span {
+  color: #8fa8aa;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+}
+
+.supplyModelNode.isActive {
+  border-color: rgba(232, 187, 120, 0.58);
+  background: rgba(232, 187, 120, 0.08);
+}
+
+.supplyModelNode.isActive > span { color: var(--accent-amber); }
+.supplyModelArrow { color: #779699; font-size: 0.9rem; }
+
+.supplyModelDetail {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.38fr) 1fr;
+  gap: 18px;
+  align-items: baseline;
+  padding: 17px 0;
+  border-top: 1px solid rgba(185, 223, 225, 0.13);
+  border-bottom: 1px solid rgba(185, 223, 225, 0.13);
+}
+
+.supplyModelDetail > span,
+.balanceExplainerColumns > div > span,
+.evidenceBoundaryBody > strong {
+  color: var(--accent-amber);
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.supplyModelDetail p,
+.balanceExplainerColumns p {
+  margin: 0;
+  color: #bdccce;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.supplyModelNote,
+.evidenceBoundarySource {
+  margin: 14px 0 0;
+  color: #91a6a8;
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.balanceExplainerTabs {
+  margin-top: 26px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(185, 223, 225, 0.13);
+}
+
+.balanceExplainerTabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.balanceExplainerTabs button > span {
+  color: var(--accent-amber);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+}
+
+.balanceExpression {
+  margin: 24px 0;
+  color: #edf3ec;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.55rem, 3vw, 2.5rem);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.balanceExplainerColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.balanceExplainerColumns > div {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+}
+
+.balanceExplainerColumns > div:last-child > span { color: var(--accent); }
+
+.evidenceBoundary {
+  margin-top: clamp(30px, 5vw, 58px);
+  padding: clamp(24px, 3.5vw, 40px);
+}
+
+.evidenceBoundary h3 {
+  margin-bottom: 0;
+}
+
+.evidenceBoundaryToggle { align-self: center; }
+
+.evidenceBoundaryBody {
+  margin-top: 23px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(185, 223, 225, 0.13);
+}
+
+.evidenceBoundaryBody ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 15px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.evidenceBoundaryBody li {
+  position: relative;
+  padding-left: 16px;
+  color: #bdccce;
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+
+.evidenceBoundaryBody li::before {
+  position: absolute;
+  top: 0.65em;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-amber);
+  content: "";
+}
+
+@media (max-width: 900px) {
+  .supplyModelChain { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .supplyModelNodeWrap { min-height: 86px; }
+  .supplyModelArrow { display: none; }
+  .evidenceBoundaryBody ul { grid-template-columns: 1fr; gap: 10px; }
+}
+
+@media (max-width: 640px) {
+  .tradeLensHeader,
+  .tradeLensControls,
+  .tradeLensBody,
+  .evidenceBoundaryHeader { flex-direction: column; }
+  .tradeLensStatus { max-width: none; text-align: left; }
+  .yearScrubber { width: 100%; max-width: none; }
+  .tradeLensReadout { flex-basis: auto; border-top: 1px solid rgba(185, 223, 225, 0.14); border-left: 0; }
+  .tradeLensChart svg { min-height: 135px; }
+  .supplyModelChain { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .supplyModelDetail,
+  .balanceExplainerColumns { grid-template-columns: 1fr; gap: 9px; }
+  .balanceExplainerTabs { display: grid; grid-template-columns: 1fr; }
+  .evidenceBoundaryToggle { align-self: stretch; }
+  .evidenceBoundaryToggle button { flex: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tradeLens *,
+  .supplyModel *,
+  .balanceExplainer *,
+  .evidenceBoundary * {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .observatory-page::before {
+    background-size: 44px 44px;
+  }
+}
+
 .economy-shell::before {
   content: "";
   position: fixed;

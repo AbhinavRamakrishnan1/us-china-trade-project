@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import EvidenceBoundary from "./EvidenceBoundary";
+import TradeDataLens from "./TradeDataLens";
 import type {
   CSSProperties,
   FormEvent,
@@ -978,35 +980,21 @@ export default function Page() {
               </p>
             </aside>
 
-            <aside className="chartPreviewStack">
-              <article className="miniChartCard revealCard" style={{ "--delay": "140ms" } as CSSProperties}>
-                <p className="kicker">Monthly Trade Values</p>
-                <Link href="/data" className="miniChartLink" aria-label="Open the data explorer for monthly trade values">
-                  <Image
-                    src="/graph1_trade_dynamics.png"
-                    alt="Mini trade dynamics preview"
-                    width={800}
-                    height={600}
-                    className="miniChartImage"
-                  />
-                </Link>
-                <p className="chartSourceNote">Project-prepared imports and exports. Units and original publisher metadata are not recorded; see Data &amp; Sources.</p>
-              </article>
+            <TradeDataLens />
+          </div>
 
-              <article className="miniChartCard revealCard" style={{ "--delay": "220ms" } as CSSProperties}>
-                <p className="kicker">Monthly Percentage Change</p>
-                <Link href="/data" className="miniChartLink" aria-label="Open the data explorer and documentation">
-                  <Image
-                    src="/graph3_percent_change.png"
-                    alt="Mini percent change preview"
-                    width={800}
-                    height={600}
-                    className="miniChartImage"
-                  />
-                </Link>
-                <p className="chartSourceNote">Month-over-month changes in the prepared file. Source metadata needs verification; see Data &amp; Sources.</p>
-              </article>
-            </aside>
+          <div className="researchFrame revealCard">
+            <div className="researchFrameHeading">
+              <p className="kicker">Research Design</p>
+              <h3>From baseline to structural change.</h3>
+              <p>Four periods organize the evidence. The sequence is a research framework, not a claim that one event alone caused every change in trade.</p>
+            </div>
+            <div className="researchFrameTrack" aria-label="Research periods from 2016 to 2025">
+              <div><span>2016-2017</span><strong>Baseline</strong><small>Trade relationship before the tariff escalation</small></div>
+              <div><span>2018-2019</span><strong>Policy shock</strong><small>Tariffs and trade conflict</small></div>
+              <div><span>2020-2021</span><strong>Systems shock</strong><small>Pandemic-era logistics disruption</small></div>
+              <div><span>2022-2025</span><strong>Adjustment</strong><small>Persistence and post-COVID change</small></div>
+            </div>
           </div>
 
           <div className="panelGrid">
@@ -1016,6 +1004,7 @@ export default function Page() {
                 className="infoCard revealCard"
                 style={{ "--delay": `${index * 110}ms` } as CSSProperties}
               >
+                <span className="infoIndex">0{index + 1} / PROJECT GUIDE</span>
                 <h3>{panel.heading}</h3>
                 <p>{panel.text}</p>
               </article>
@@ -1179,6 +1168,7 @@ export default function Page() {
             </p>
             <a href="#projects">Back to research projects</a>
           </div>
+          <EvidenceBoundary />
         </section>
 
         <section id="researcher" className="shell section researcherSection">
@@ -1305,7 +1295,7 @@ export default function Page() {
           inset: 0;
           background: radial-gradient(ellipse 46rem 30rem at 52% 48%, rgba(86, 163, 173, 0.16), transparent 72%);
           opacity: 0;
-          animation: heroOpeningBloom 1600ms 120ms both cubic-bezier(0.22, 1, 0.36, 1);
+          animation: heroOpeningBloom 3400ms 100ms both cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .heroGrid {
@@ -1361,11 +1351,12 @@ export default function Page() {
         .heroFlowArrival {
           fill: none;
           stroke: rgba(195, 239, 232, 0.74);
-          stroke-width: 1.5;
+          stroke-width: 2;
           stroke-linecap: round;
-          stroke-dasharray: 280 1800;
+          stroke-dasharray: 440 1800;
           stroke-dashoffset: 1800;
-          animation: flowArrival 2200ms 140ms both cubic-bezier(0.22, 1, 0.36, 1);
+          filter: drop-shadow(0 0 5px rgba(141, 216, 220, 0.42)) drop-shadow(0 0 18px rgba(141, 216, 220, 0.2));
+          animation: flowArrival 4800ms 260ms both cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .heroFlowSignal {
@@ -1414,7 +1405,7 @@ export default function Page() {
           font-weight: 700;
           letter-spacing: 0.16em;
           text-transform: uppercase;
-          animation: heroLift 600ms both cubic-bezier(0.22, 1, 0.36, 1);
+          animation: heroLift 900ms 100ms both cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .heroWordmark {
@@ -1444,7 +1435,7 @@ export default function Page() {
           font-weight: 800;
           letter-spacing: 0.24em;
           text-transform: uppercase;
-          animation: heroLift 600ms 80ms both cubic-bezier(0.22, 1, 0.36, 1);
+          animation: heroLift 900ms 380ms both cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .heroEyebrow > span {
@@ -1476,10 +1467,11 @@ export default function Page() {
         .heroTitleLine > span {
           display: block;
           transform: translateY(112%);
-          animation: titleUnmask 1050ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+          animation: titleUnmask 1500ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
-        .heroTitleLine:nth-child(2) > span { animation-delay: 190ms; }
+        .heroTitleLine:first-child > span { animation-delay: 680ms; }
+        .heroTitleLine:nth-child(2) > span { animation-delay: 1050ms; }
 
         .heroTitleLineAccent {
           color: #a7d5d0;
@@ -1493,7 +1485,7 @@ export default function Page() {
           color: #e2e7e2;
           font-size: clamp(1.0625rem, 1.25vw, 1.1875rem);
           line-height: 1.65;
-          animation: heroLift 700ms 340ms both cubic-bezier(0.22, 1, 0.36, 1);
+          animation: heroLift 900ms 1650ms both cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .heroQuestion {
@@ -1502,7 +1494,7 @@ export default function Page() {
           color: #aebdc0;
           font-size: clamp(1rem, 1.12vw, 1.0625rem);
           line-height: 1.7;
-          animation: heroLift 700ms 430ms both cubic-bezier(0.22, 1, 0.36, 1);
+          animation: heroLift 900ms 1920ms both cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .heroActions {
@@ -1511,7 +1503,7 @@ export default function Page() {
           gap: 28px;
           flex-wrap: wrap;
           margin-top: 29px;
-          animation: heroLift 700ms 560ms both cubic-bezier(0.22, 1, 0.36, 1);
+          animation: heroLift 900ms 2250ms both cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .heroPersonalize {
@@ -1527,7 +1519,7 @@ export default function Page() {
           text-decoration-color: rgba(207, 222, 220, 0.25);
           text-underline-offset: 4px;
           cursor: pointer;
-          animation: heroLift 700ms 580ms both cubic-bezier(0.2, 0.75, 0.25, 1);
+          animation: heroLift 900ms 2420ms both cubic-bezier(0.2, 0.75, 0.25, 1);
         }
 
         .heroPersonalize:hover,
@@ -1563,7 +1555,7 @@ export default function Page() {
           background: linear-gradient(145deg, rgba(229, 246, 242, 0.055), rgba(9, 23, 32, 0.18));
           box-shadow: 0 22px 70px rgba(0, 0, 0, 0.14);
           backdrop-filter: blur(8px);
-          animation: heroCardArrival 950ms 720ms both cubic-bezier(0.22, 1, 0.36, 1);
+          animation: heroCardArrival 1350ms 1050ms both cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .heroChronologyHead,
@@ -1598,7 +1590,7 @@ export default function Page() {
           height: 1px;
           background: linear-gradient(90deg, #70bdc0, #edbd79);
           transform-origin: left;
-          animation: timelineDraw 900ms 1600ms both cubic-bezier(0.22, 1, 0.36, 1);
+          animation: timelineDraw 1350ms 2450ms both cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .heroTimeline {
@@ -1619,7 +1611,7 @@ export default function Page() {
           width: 100%;
           max-width: 290px;
           margin: 0 auto;
-          animation: heroGlobeArrival 900ms 1080ms both cubic-bezier(0.22, 1, 0.36, 1);
+          animation: heroGlobeArrival 1450ms 1680ms both cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .heroGlobe svg { display: block; width: 100%; overflow: visible; }
@@ -1665,7 +1657,7 @@ export default function Page() {
           background: rgba(156, 206, 202, 0.2);
           transform: scaleY(0);
           transform-origin: top;
-          animation: timelineDrawVertical 800ms 1600ms forwards cubic-bezier(0.22, 1, 0.36, 1);
+          animation: timelineDrawVertical 1300ms 2450ms forwards cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .heroTimelineSignal {
@@ -1679,7 +1671,7 @@ export default function Page() {
           background: #a5e8e5;
           box-shadow: 0 0 7px rgba(141, 243, 255, 0.5);
           opacity: 0;
-          animation: timelineSignalVertical 8.5s 2.1s linear infinite;
+          animation: timelineSignalVertical 8.5s 3.65s linear infinite;
         }
 
         .heroMilestone {
@@ -1691,7 +1683,7 @@ export default function Page() {
           padding: 20px 0;
           color: #e5eeea;
           opacity: 0;
-          animation: heroLift 560ms calc(1840ms + var(--milestone-index) * 130ms) forwards cubic-bezier(0.22, 1, 0.36, 1);
+          animation: heroLift 760ms calc(2700ms + var(--milestone-index) * 250ms) forwards cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .heroMilestoneDot {
@@ -2997,8 +2989,9 @@ export default function Page() {
 
         @keyframes flowArrival {
           0% { opacity: 0; stroke-dashoffset: 1800; }
-          14% { opacity: 0.9; }
-          78% { opacity: 0.75; }
+          12% { opacity: 0.25; }
+          38% { opacity: 1; }
+          72% { opacity: 0.86; }
           100% { opacity: 0; stroke-dashoffset: 0; }
         }
 
@@ -3039,6 +3032,507 @@ export default function Page() {
           to {
             opacity: 1;
             transform: translateY(0);
+          }
+        }
+
+        /* The revealed observatory uses the same editorial language as the opening. */
+        .page {
+          background:
+            radial-gradient(ellipse at 6% 18%, rgba(73, 157, 167, 0.17), transparent 34%),
+            radial-gradient(ellipse at 90% 48%, rgba(232, 187, 120, 0.055), transparent 28%),
+            linear-gradient(180deg, #09131d 0%, #0b1720 54%, #08121a 100%);
+        }
+
+        .shell {
+          width: min(1660px, calc(100% - clamp(40px, 10vw, 176px)));
+        }
+
+        .siteTicker {
+          border-block: 1px solid rgba(185, 223, 225, 0.11);
+          background: rgba(9, 21, 29, 0.62);
+        }
+
+        .siteTickerTrack {
+          gap: 14px clamp(28px, 4vw, 64px);
+          padding-top: 18px;
+          padding-bottom: 18px;
+        }
+
+        .siteTickerTrack span {
+          color: #a9cfce;
+          font-size: 0.68rem;
+          letter-spacing: 0.2em;
+        }
+
+        .section {
+          padding-top: clamp(88px, 10vw, 142px);
+          padding-bottom: 32px;
+        }
+
+        .sectionHead {
+          max-width: 1120px;
+          margin-bottom: clamp(34px, 4vw, 56px);
+        }
+
+        .sectionHead .kicker,
+        .toolkitHeading .kicker,
+        .researcherPanel .kicker,
+        .contactFooter .kicker {
+          color: var(--accent);
+          letter-spacing: 0.2em;
+        }
+
+        .sectionHead h2,
+        .projectsIntro h2,
+        .toolkitHeading h2,
+        .researcherPanel h2,
+        .contactFooter h2 {
+          font-family: var(--font-display), Georgia, serif;
+          font-weight: 500;
+          letter-spacing: -0.035em;
+          text-wrap: balance;
+        }
+
+        .sectionHead h2 {
+          max-width: 24ch;
+          font-size: clamp(2.8rem, 5.2vw, 5rem);
+          line-height: 0.99;
+        }
+
+        .sectionHead > p:last-child,
+        .projectsIntro > p:last-child {
+          color: #b9c9cd;
+          font-size: clamp(1rem, 1.15vw, 1.12rem);
+          line-height: 1.85;
+        }
+
+        .insightLayout,
+        .methodExhibits {
+          gap: clamp(22px, 2.4vw, 38px);
+        }
+
+        .windowColumn,
+        .panelGrid,
+        .methodGrid,
+        .projectGrid,
+        .microGrid,
+        .toolkitGrid {
+          gap: clamp(14px, 1.4vw, 22px);
+        }
+
+        .windowCard,
+        .featurePanel,
+        .infoCard,
+        .methodCard,
+        .projectCard,
+        .methodNote,
+        .microCard,
+        .liveStrip,
+        .timelineRail,
+        .miniChartCard,
+        .toolkitCard {
+          border-color: rgba(185, 223, 225, 0.14);
+          background: linear-gradient(145deg, rgba(23, 47, 57, 0.72), rgba(11, 25, 34, 0.8));
+          box-shadow: 0 20px 55px rgba(0, 0, 0, 0.16);
+        }
+
+        .windowCard,
+        .featurePanel,
+        .infoCard,
+        .methodCard,
+        .methodNote,
+        .microCard,
+        .timelineRail,
+        .miniChartCard,
+        .toolkitCard {
+          padding: clamp(24px, 2.4vw, 38px);
+        }
+
+        .featurePanel {
+          background:
+            radial-gradient(ellipse at 100% 0%, rgba(141, 216, 220, 0.14), transparent 45%),
+            linear-gradient(145deg, rgba(23, 47, 57, 0.78), rgba(11, 25, 34, 0.86));
+        }
+
+        .windowCard h3,
+        .featurePanel h3,
+        .projectCard h3,
+        .methodCard h3,
+        .infoCard h3,
+        .microCard h3 {
+          font-family: var(--font-display), Georgia, serif;
+          font-weight: 500;
+          letter-spacing: -0.02em;
+        }
+
+        .windowMeta,
+        .projectNumber,
+        .methodNote a {
+          color: var(--accent-amber);
+        }
+
+        .windowCta,
+        .projectCard strong,
+        .toolkitCard strong,
+        .chartSourceNote a {
+          color: var(--accent);
+        }
+
+        .windowCta:hover,
+        .windowCta:focus-visible {
+          color: var(--accent-amber);
+        }
+
+        .sideWidgets {
+          grid-template-columns: minmax(340px, 0.76fr) minmax(0, 1.24fr);
+          gap: clamp(22px, 2.4vw, 38px);
+          margin-bottom: clamp(48px, 7vw, 96px);
+        }
+
+        .timelineRail,
+        .miniChartCard {
+          border-radius: var(--radius-lg);
+        }
+
+        .timelineHeader h3,
+        .miniChartCard > .kicker {
+          font-family: var(--font-display), Georgia, serif;
+          font-weight: 500;
+          letter-spacing: -0.015em;
+        }
+
+        .projectsSection {
+          padding-top: clamp(110px, 13vw, 184px);
+        }
+
+        .projectsIntro {
+          column-gap: clamp(40px, 8vw, 132px);
+          margin-bottom: clamp(42px, 6vw, 82px);
+        }
+
+        .projectsIntro h2 {
+          max-width: 13ch;
+          font-size: clamp(3rem, 6vw, 6rem);
+          line-height: 0.97;
+        }
+
+        .projectGrid {
+          border-top-color: rgba(185, 223, 225, 0.18);
+        }
+
+        .projectCard {
+          min-height: 188px;
+          padding: 28px 22px;
+          border-bottom-color: rgba(185, 223, 225, 0.15);
+          border-radius: 0;
+          background: transparent;
+          box-shadow: none;
+        }
+
+        .projectCard:hover,
+        .projectCard:focus-visible {
+          background: linear-gradient(90deg, rgba(141, 216, 220, 0.075), rgba(141, 216, 220, 0.015));
+        }
+
+        .projectCard h3 {
+          font-size: clamp(1.7rem, 2.4vw, 2.5rem);
+        }
+
+        .methodologySection,
+        .researcherSection {
+          padding-top: clamp(110px, 13vw, 180px);
+        }
+
+        .methodGrid {
+          gap: 16px;
+        }
+
+        .methodCard {
+          min-height: 250px;
+        }
+
+        .methodExhibits {
+          margin-top: clamp(28px, 4vw, 52px);
+        }
+
+        .chartShell {
+          overflow: hidden;
+          border: 1px solid rgba(185, 223, 225, 0.14);
+          border-radius: var(--radius-md);
+          background: rgba(5, 15, 22, 0.55);
+        }
+
+        .researcherPanel {
+          padding: clamp(30px, 5vw, 72px);
+          border-color: rgba(185, 223, 225, 0.16);
+          background:
+            radial-gradient(ellipse at 100% 0%, rgba(141, 216, 220, 0.13), transparent 42%),
+            linear-gradient(145deg, rgba(23, 47, 57, 0.82), rgba(11, 25, 34, 0.9));
+        }
+
+        .researcherPanel h2,
+        .contactFooter h2 {
+          font-size: clamp(3rem, 6vw, 5.6rem);
+        }
+
+        .researcherPanel p,
+        .contactFooter p {
+          color: #bdcdd0;
+        }
+
+        .researcherStats article,
+        .contactCards a,
+        .contactCards button {
+          border-color: rgba(185, 223, 225, 0.14);
+          background: rgba(8, 20, 28, 0.56);
+        }
+
+        .researcherStats span,
+        .contactCards span {
+          color: var(--accent);
+        }
+
+        .contactFooter {
+          padding-top: clamp(100px, 12vw, 168px);
+          padding-bottom: clamp(80px, 10vw, 140px);
+        }
+
+        .contactCards a:hover,
+        .contactCards a:focus-visible,
+        .contactCards button:hover,
+        .contactCards button:focus-visible {
+          border-color: rgba(141, 216, 220, 0.42);
+        }
+
+        @media (max-width: 980px) {
+          .sideWidgets {
+            grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+          }
+        }
+
+        .researchFrame {
+          display: grid;
+          grid-template-columns: minmax(240px, 0.64fr) minmax(0, 1.36fr);
+          gap: clamp(28px, 4vw, 64px);
+          align-items: center;
+          margin: 28px 0 18px;
+          padding: clamp(26px, 3.2vw, 48px);
+          border: 1px solid rgba(185, 223, 225, 0.16);
+          border-radius: var(--radius-lg);
+          background:
+            radial-gradient(ellipse at 0% 100%, rgba(141, 216, 220, 0.09), transparent 44%),
+            linear-gradient(135deg, rgba(20, 43, 52, 0.82), rgba(9, 22, 30, 0.9));
+          box-shadow: 0 22px 62px rgba(0, 0, 0, 0.17);
+        }
+
+        .researchFrameHeading .kicker {
+          color: var(--accent);
+          font-size: 0.68rem;
+          font-weight: 750;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+        }
+
+        .researchFrameHeading h3 {
+          max-width: 13ch;
+          margin: 14px 0 12px;
+          color: #e8f0ed;
+          font-size: clamp(1.8rem, 2.7vw, 2.8rem);
+          font-weight: 550;
+          letter-spacing: -0.04em;
+          line-height: 1.05;
+        }
+
+        .researchFrameHeading > p:last-child {
+          max-width: 40ch;
+          margin: 0;
+          color: #afc0c3;
+          font-size: 0.92rem;
+          line-height: 1.75;
+        }
+
+        .researchFrameTrack {
+          position: relative;
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 14px;
+          padding-top: 24px;
+        }
+
+        .researchFrameTrack::before {
+          position: absolute;
+          top: 8px;
+          right: 8%;
+          left: 4%;
+          height: 1px;
+          background: linear-gradient(90deg, rgba(232, 187, 120, 0.72), rgba(141, 216, 220, 0.7));
+          content: "";
+        }
+
+        .researchFrameTrack > div {
+          position: relative;
+          display: grid;
+          align-content: start;
+          gap: 8px;
+          min-height: 126px;
+          padding: 12px 12px 0 0;
+        }
+
+        .researchFrameTrack > div::before {
+          position: absolute;
+          top: -20px;
+          left: 0;
+          width: 9px;
+          height: 9px;
+          border: 2px solid #142d36;
+          border-radius: 50%;
+          background: var(--accent-amber);
+          box-shadow: 0 0 0 1px rgba(232, 187, 120, 0.65);
+          content: "";
+        }
+
+        .researchFrameTrack > div:nth-child(n + 3)::before {
+          background: var(--accent);
+          box-shadow: 0 0 0 1px rgba(141, 216, 220, 0.65);
+        }
+
+        .researchFrameTrack span,
+        .infoIndex {
+          color: #9eb6b8;
+          font-size: 0.62rem;
+          font-weight: 750;
+          letter-spacing: 0.13em;
+          text-transform: uppercase;
+        }
+
+        .researchFrameTrack strong {
+          color: #edf3ec;
+          font-size: 0.98rem;
+          font-weight: 650;
+          letter-spacing: -0.015em;
+        }
+
+        .researchFrameTrack small {
+          max-width: 19ch;
+          color: #aebfc2;
+          font-size: 0.78rem;
+          line-height: 1.55;
+        }
+
+        .panelGrid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          align-items: stretch;
+          gap: 16px;
+        }
+
+        .infoCard {
+          min-height: 0;
+          padding: 24px 26px;
+          border-radius: 16px;
+          background: rgba(13, 29, 37, 0.72);
+          box-shadow: none;
+        }
+
+        .infoCard h3 {
+          margin: 14px 0 8px;
+          color: #e7efeb;
+          font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+          font-size: 1.08rem;
+          font-weight: 650;
+          letter-spacing: -0.015em;
+          line-height: 1.3;
+        }
+
+        .infoCard p {
+          color: #adbec1;
+          font-size: 0.87rem;
+          line-height: 1.7;
+        }
+
+        .toolkitHeading {
+          margin-top: clamp(56px, 7vw, 90px);
+        }
+
+        .toolkitHeading h2 {
+          font-family: var(--font-display), Georgia, serif;
+          font-size: clamp(2.2rem, 4vw, 3.6rem);
+          font-weight: 500;
+          letter-spacing: -0.035em;
+        }
+
+        .windowCard h3,
+        .featurePanel h3,
+        .methodCard h3,
+        .microCard h3 {
+          font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+          font-weight: 650;
+          letter-spacing: -0.025em;
+        }
+
+        .infoIndex {
+          display: block;
+          color: var(--accent-amber);
+        }
+
+        @media (max-width: 1100px) {
+          .researchFrame {
+            grid-template-columns: 1fr;
+            gap: 30px;
+          }
+          .researchFrameHeading h3 { max-width: 22ch; }
+          .researchFrameHeading > p:last-child { max-width: 70ch; }
+        }
+
+        @media (max-width: 820px) {
+          .panelGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+          .panelGrid .infoCard:last-child { grid-column: 1 / -1; }
+        }
+
+        @media (max-width: 640px) {
+          .researchFrame { padding: 24px 20px; }
+          .researchFrameTrack { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 22px; }
+          .researchFrameTrack::before { top: 8px; bottom: 8px; left: 4px; width: 1px; height: auto; background: linear-gradient(180deg, rgba(232, 187, 120, 0.72), rgba(141, 216, 220, 0.7)); }
+          .researchFrameTrack > div { min-height: 98px; padding-left: 18px; }
+          .researchFrameTrack > div::before { top: 0; left: 0; }
+          .panelGrid { grid-template-columns: 1fr; }
+          .panelGrid .infoCard:last-child { grid-column: auto; }
+        }
+
+        @media (max-width: 640px) {
+          .shell {
+            width: calc(100% - 36px);
+          }
+
+          .section,
+          .projectsSection,
+          .methodologySection,
+          .researcherSection {
+            padding-top: 76px;
+          }
+
+          .sectionHead h2 {
+            font-size: clamp(2.5rem, 12vw, 3.8rem);
+          }
+
+          .sideWidgets {
+            grid-template-columns: minmax(0, 1fr);
+          }
+
+          .projectCard {
+            padding: 22px 10px;
+          }
+
+          .projectCard:hover,
+          .projectCard:focus-visible {
+            padding-inline: 14px 6px;
+          }
+
+          .methodCard {
+            min-height: 0;
+          }
+
+          .researcherPanel {
+            padding: 26px 22px;
           }
         }
 
@@ -3087,8 +3581,6 @@ export default function Page() {
             gap: 16px;
             min-height: 154px;
           }
-
-          .heroFlowArrival { display: none; }
 
           .heroTimeline {
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -3324,6 +3816,21 @@ export default function Page() {
             padding: 22px;
             border-radius: 24px;
           }
+        }
+
+        @media (max-width: 640px) {
+          .shell { width: calc(100% - 36px); }
+          .section,
+          .projectsSection,
+          .methodologySection,
+          .researcherSection { padding-top: 76px; }
+          .sectionHead h2 { font-size: clamp(2.5rem, 12vw, 3.8rem); }
+          .sideWidgets { grid-template-columns: minmax(0, 1fr); }
+          .projectCard { padding: 22px 10px; }
+          .projectCard:hover,
+          .projectCard:focus-visible { padding-inline: 14px 6px; }
+          .methodCard { min-height: 0; }
+          .researcherPanel { padding: 26px 22px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
