@@ -874,6 +874,7 @@ export default function Page() {
 
         <div className="siteTicker">
           <div className="siteTickerTrack">
+            <span className="siteTickerMetric"><strong>35K+</strong> project views <i>milestone</i></span>
             {[
               "Tariff escalation",
               "Supply bottlenecks",
@@ -2266,6 +2267,30 @@ export default function Page() {
           font-size: 10px;
           text-transform: uppercase;
           letter-spacing: 0.24em;
+        }
+
+        .siteTickerTrack .siteTickerMetric {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          color: #e8efeb;
+        }
+
+        .siteTickerMetric strong {
+          color: #f0c98f;
+          font-family: var(--font-display), Georgia, serif;
+          font-size: 1.05rem;
+          font-weight: 500;
+          letter-spacing: -0.02em;
+        }
+
+        .siteTickerMetric i {
+          padding-left: 8px;
+          border-left: 1px solid rgba(185, 223, 225, 0.22);
+          color: #8fa8aa;
+          font-size: 0.55rem;
+          font-style: normal;
+          letter-spacing: 0.13em;
         }
 
         .section {
