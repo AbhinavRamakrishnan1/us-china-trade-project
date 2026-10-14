@@ -263,22 +263,32 @@ const sources = [
   {
     agency: "U.S. Census Bureau",
     use: "Monthly goods trade data, import/export flows, and bilateral trade balance context.",
+    href: "https://www.census.gov/foreign-trade/balance/c5700.html",
+    sourceLabel: "Trade in Goods with China",
   },
   {
     agency: "Bureau of Economic Analysis",
     use: "Macroeconomic context for trade, production, consumption, and national-account framing.",
+    href: "https://www.bea.gov/data/intl-trade-investment/international-services-expanded",
+    sourceLabel: "International services and trade data",
   },
   {
     agency: "Federal Reserve Economic Data",
     use: "Supporting indicators for inflation pressure, industrial activity, and broader economic conditions.",
+    href: "https://fred.stlouisfed.org/series/IMPCH",
+    sourceLabel: "FRED imports series: IMPCH",
   },
   {
     agency: "World Trade Organization",
     use: "International trade-policy context and comparative interpretation of tariff regimes.",
+    href: "https://www.wto.org/english/res_e/publications_e/wtr24_e.htm",
+    sourceLabel: "World Trade Report",
   },
   {
     agency: "U.S. Trade Representative",
     use: "Policy background on tariff actions, trade-war chronology, and government trade positions.",
+    href: "https://ustr.gov/issue-areas/enforcement/section-301-investigations/section-301-china",
+    sourceLabel: "Section 301 China investigation",
   },
 ];
 
@@ -824,18 +834,14 @@ export default function Page() {
                 <div>
                   <h3>{source.agency}</h3>
                   <p>{source.use}</p>
+                  <a className="sourceLink" href={source.href} target="_blank" rel="noreferrer">
+                    {source.sourceLabel} <span aria-hidden="true">↗</span>
+                  </a>
                 </div>
               </article>
             ))}
           </div>
 
-          <div className="sourceNote">
-            <strong>Research note</strong>
-            <p>
-              In a final academic version, each chart and claim should include a
-              specific table, series ID, access date, or policy document citation.
-            </p>
-          </div>
         </aside>
 
         <aside
@@ -2137,6 +2143,32 @@ export default function Page() {
           margin: 0;
           color: #d7e4f5;
           line-height: 1.7;
+        }
+
+        .sourceLink {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          margin-top: 12px;
+          color: #8df3ff;
+          font-size: 0.72rem;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          text-decoration: none;
+          text-transform: uppercase;
+        }
+
+        .sourceLink:hover,
+        .sourceLink:focus-visible {
+          color: #f0c98f;
+          text-decoration: underline;
+          text-underline-offset: 4px;
+        }
+
+        .sourceLink span {
+          color: inherit;
+          font-size: 0.95rem;
+          letter-spacing: 0;
         }
 
         .sourceNote {
