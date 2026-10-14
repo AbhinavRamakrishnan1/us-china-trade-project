@@ -1180,6 +1180,16 @@ export default function Page() {
 
         <section id="researcher" className="shell section researcherSection">
           <div className="researcherPanel revealCard" style={{ "--delay": "80ms" } as CSSProperties}>
+            <div className="researcherPortraitWrap">
+              <Image
+                src="/researcher-portrait.png"
+                alt="Portrait of Abhinav Ramakrishnan"
+                width={1024}
+                height={1536}
+                className="researcherPortrait"
+              />
+              <span>Researcher / Editor</span>
+            </div>
             <div>
               <p className="kicker">About The Researcher</p>
               <h2>Abhinav Ramakrishnan</h2>
@@ -2788,7 +2798,7 @@ export default function Page() {
 
         .researcherPanel {
           display: grid;
-          grid-template-columns: 1.25fr 0.75fr;
+          grid-template-columns: minmax(180px, 0.34fr) minmax(0, 1fr) minmax(180px, 0.48fr);
           gap: 28px;
           align-items: end;
           padding: 34px;
@@ -2818,6 +2828,46 @@ export default function Page() {
         .researcherPanel > div:first-child > p:last-child {
           max-width: 70ch;
           margin-top: 18px;
+        }
+
+        .researcherPortraitWrap {
+          position: relative;
+          align-self: stretch;
+          min-height: 300px;
+          overflow: hidden;
+          border: 1px solid rgba(185, 223, 225, 0.18);
+          border-radius: 18px;
+          background: #111b20;
+        }
+
+        .researcherPortrait {
+          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center top;
+          filter: saturate(0.82) contrast(1.03);
+        }
+
+        .researcherPortraitWrap::after {
+          position: absolute;
+          inset: auto 0 0;
+          height: 42%;
+          background: linear-gradient(transparent, rgba(6, 16, 23, 0.72));
+          content: "";
+          pointer-events: none;
+        }
+
+        .researcherPortraitWrap > span {
+          position: absolute;
+          z-index: 1;
+          right: 15px;
+          bottom: 14px;
+          color: #d8e9e5;
+          font-size: 0.62rem;
+          font-weight: 750;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
         }
 
         .researcherStats {
@@ -3586,6 +3636,18 @@ export default function Page() {
 
           .methodCard {
             min-height: 0;
+          }
+
+          .researcherPanel {
+            grid-template-columns: minmax(130px, 0.34fr) minmax(0, 1fr);
+          }
+
+          .researcherPanel .researcherStats {
+            grid-column: 1 / -1;
+          }
+
+          .researcherPortraitWrap {
+            min-height: 260px;
           }
 
           .researcherPanel {
