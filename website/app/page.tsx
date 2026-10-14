@@ -1194,7 +1194,7 @@ export default function Page() {
               <p className="kicker">About The Researcher</p>
               <h2>Abhinav Ramakrishnan</h2>
               <p>
-                I created Trade Shock Observatory because I did not want being a high school student to define how far I could take my interests. I wanted to study economics beyond the classroom, work with real data, and understand questions that did not have simple textbook answers. At the same time, I wanted to turn what I learned into something other people could explore and learn from. I have always been driven by the idea that there is more to understand and more I can improve, and this project became an outlet for that ambition. It gave me a way to combine economics, research, data analysis, and web development while building a resource around a subject I genuinely wanted to understand.
+                As a student at Monroe Township High School, I created Trade Shock Observatory because I did not want being a high school student to define how far I could take my interests. I wanted to study economics beyond the classroom, work with real data, and understand questions that did not have simple textbook answers. At the same time, I wanted to turn what I learned into something other people could explore and learn from. I have always been driven by the idea that there is more to understand and more I can improve, and this project became an outlet for that ambition. It gave me a way to combine economics, research, data analysis, and web development while building a resource around a subject I genuinely wanted to understand.
               </p>
             </div>
 
